@@ -1,0 +1,54 @@
+.support_content{
+  @extend .background;
+  .wrapper{
+    margin: 2rem;
+    .card{
+      margin: 0;
+    }
+    h4{
+      color: $black-b;
+    }
+    h5{
+      //color: $black-c;
+      font-size: 1.6rem;
+    }
+    .cards:hover{
+      color: $primary;
+    }
+    .cards.active, .cards.activated{
+      color: $primary;
+    }
+  }
+  .button{
+     width: 100%;
+     margin:1em 0;
+  }
+}
+.promotion_content{
+  .promo-code{
+    border: 1px solid $light-grey;
+    height: 6.5rem;
+    h6{
+      margin: 1.8rem !important;
+      color: $white-d;
+      font-size: 1.6rem;
+      font-weight: 400;
+    }
+  }
+}
+.about_content{
+  @extend .background;
+  .about-button{
+    display: inline-flex;
+    margin: 1rem 0 0 0 !important;
+    width: 100%;
+    font-size: 1.6rem;
+  }
+  .about-button:hover{
+    color: $primary;
+  }
+  .about-button.active, .about-button.activated{
+    color: $primary;
+  }
+  
+}

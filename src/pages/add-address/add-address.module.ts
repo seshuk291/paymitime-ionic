@@ -1,0 +1,10 @@
+import { NgModule } from "@angular/core";
+import { IonicPageModule } from "ionic-angular";
+import { AddAddressPage } from "./add-address";
+import { TranslateModule } from "@ngx-translate/core";
+
+@NgModule({
+  declarations: [AddAddressPage],
+  imports: [IonicPageModule.forChild(AddAddressPage), TranslateModule]
+})
+export class AddAddressPageModule {}

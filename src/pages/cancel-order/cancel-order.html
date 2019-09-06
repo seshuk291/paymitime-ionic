@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar class="header-bar">
+    <ion-title>{{'Your Order' | translate}}: &nbsp;&nbsp;{{orderDataID}}</ion-title>
+    <ion-buttons end>
+      <!-- <button ion-button clear (click)="chat()">Chat with Us</button> -->
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content class="orders-content">
+  <div class="cancel-order-content">
+    <img class="cancel-img" src="assets/imgs/cancel-order.png">
+    <ion-card class="card" padding>
+      <ion-card-header class="head-line" *ngIf = "isCancled">
+        <span>{{dateData | date:'medium'}}</span>{{'Order Cancelled' | translate}}</ion-card-header>
+      <ion-card-content>
+        <p>{{'Order has been cancelled as per your request' | translate}}
+          <br/> {{'We will look forward to serve you soon' | translate}}...</p>
+      </ion-card-content>
+      <button ion-button padding margin-left outline (click)="OnClick()">{{'Place new Order' | translate}}</button>
+    </ion-card>
+  </div>
+</ion-content>

@@ -1,0 +1,119 @@
+.form-content{
+    @extend .landin-content;
+    .submit-btn{
+        padding: 23px !important;
+    }
+    .form-list{
+        padding: 0 11%;
+        .forms{
+            border: 1.5px solid $primary;
+            margin-bottom: 1rem;
+        }
+        .item{
+            background: transparent;
+            color: $white-a;
+
+            ion-icon {
+                min-height: 2rem;
+                font-size: 1.8rem;
+                color: $white-a;
+            }
+            ion-input{
+                font-size: 1.4rem;
+            }
+        }
+    }
+    p{
+      padding: 0 2rem;
+      color: $white-a;
+      text-align: center;
+    }
+    .buttons{
+        padding: 0 11%;
+        text-transform: capitalize !important;
+        .login-btn{
+            @extend .submit-buttons;
+            background: $primary;
+            font-size: 1.6rem;
+            float: right;
+        }
+        .clear-btn{
+            background: transparent !important;
+        }
+        .signin-btn{
+            @extend .login-btn;
+            margin-top: 0 !important;
+        }
+    }
+    .check-in{
+        margin-top: -15px;
+        padding: 0 11%;
+        display: -webkit-inline-flex;
+       .item{
+           padding: 0;
+           border-bottom:0;
+       }
+       .check-box{
+           background: transparent;
+           margin-right: 2.5rem;
+           .checkbox{
+               margin: 0;
+            }
+            .item-inner{
+               color: $white-a;
+               font-size: 1.3rem;
+               margin-left: 0;
+            }
+            .checkbox-icon{
+                border-color: $primary;
+                background-color: $primary;
+            }
+        }
+    }
+    .login-options{
+        @extend .login-options;
+    }
+}
+
+.form-content.login{
+    .logo{
+        margin: 5rem auto 7rem;
+    }
+}
+.form-content.signin{
+    @extend .form-content.login;
+    .login-options{
+        padding: 1rem 2.5rem;
+    }
+}
+
+//promotional-code
+.promo-code-item-wrapper{
+    position: relative;
+    .promo-code-item{
+      border: 2px solid $white-c;
+      .text-input{
+        @include placeholder-color($black-c);
+      }
+      .item-inner{
+        padding-right: 26px;
+      }
+    }
+    button{
+      position: absolute;
+      top: 2px;
+      right: 8px;
+      box-shadow: none;
+    }
+}
+.payment-logo{
+  width: 5rem;
+}
+.payment{
+  .icon{
+    color: $black-b;
+  }
+  .text-input{
+    @include placeholder-color($black-c);
+  }
+}

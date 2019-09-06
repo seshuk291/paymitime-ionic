@@ -1,0 +1,117 @@
+{
+    "name": "paymitimeconsumer",
+    "version": "2.0.0",
+    "author": "Ionic Framework",
+    "homepage": "http://ionicframework.com/",
+    "private": true,
+    "scripts": {
+        "clean": "ionic-app-scripts clean",
+        "build": "ionic-app-scripts build",
+        "lint": "ionic-app-scripts lint",
+        "ionic:build": "ionic-app-scripts build",
+        "ionic:serve": "ionic-app-scripts serve"
+    },
+    "dependencies": {
+        "@agm/core": "^1.0.0-beta.2",
+        "@angular/common": "5.0.3",
+        "@angular/compiler": "5.0.3",
+        "@angular/compiler-cli": "5.0.3",
+        "@angular/core": "5.0.3",
+        "@angular/forms": "5.0.3",
+        "@angular/http": "5.0.3",
+        "@angular/platform-browser": "5.0.3",
+        "@angular/platform-browser-dynamic": "5.0.3",
+        "@ionic-native/background-mode": "^4.20.0",
+        "@ionic-native/barcode-scanner": "^4.20.0",
+        "@ionic-native/core": "4.4.0",
+        "@ionic-native/facebook": "^4.20.0",
+        "@ionic-native/geolocation": "^4.5.2",
+        "@ionic-native/google-plus": "^4.5.2",
+        "@ionic-native/onesignal": "^4.5.2",
+        "@ionic-native/paypal": "^4.5.2",
+        "@ionic-native/splash-screen": "4.4.0",
+        "@ionic-native/status-bar": "4.4.0",
+        "@ionic-native/stripe": "^4.5.2",
+        "@ionic-native/twitter-connect": "^4.5.2",
+        "@ionic/angular": "^4.4.0",
+        "@ionic/storage": "2.1.3",
+        "@ngx-translate/core": "8.0.0",
+        "@ngx-translate/http-loader": "^2.0.1",
+        "@types/googlemaps": "^3.26.13",
+        "card.io.cordova.mobilesdk": "^2.1.0",
+        "com.paypal.cordova.mobilesdk": "^3.5.0",
+        "cordova-android": "8.0.0",
+        "cordova-browser": "5.0.3",
+        "cordova-ios": "^4.5.0",
+        "cordova-plugin-background-mode": "0.7.2",
+        "cordova-plugin-device": "^1.1.7",
+        "cordova-plugin-enable-multidex": "0.2.0",
+        "cordova-plugin-facebook4": "1.7.4",
+        "cordova-plugin-geolocation": "^4.0.1",
+        "cordova-plugin-googleplus": "7.0.2",
+        "cordova-plugin-ionic-webview": "^1.2.1",
+        "cordova-plugin-splashscreen": "^4.1.0",
+        "cordova-plugin-statusbar": "2.4.2",
+        "cordova-plugin-stripe": "^1.5.3",
+        "cordova-plugin-whitelist": "^1.3.3",
+        "ionic-angular": "3.9.2",
+        "ionic-plugin-keyboard": "^2.2.1",
+        "ionic2-rating": "^1.2.2",
+        "ionicons": "3.0.0",
+        "ng2-cloudinary": "0.9.2",
+        "ng2-file-upload": "1.2.1",
+        "onesignal-cordova-plugin": "^2.4.6",
+        "phonegap-plugin-barcodescanner": "8.0.1",
+        "promise-polyfill": "^8.1.0",
+        "rxjs": "6.5.2",
+        "rxjs-compat": "6.5.2",
+        "socket.io-client": "2.0.3",
+        "sw-toolbox": "3.6.0",
+        "twitter-connect-plugin": "git+https://github.com/chroa/twitter-connect-plugin.git",
+        "zone.js": "0.8.18"
+    },
+    "devDependencies": {
+        "@ionic/app-scripts": "3.2.3",
+        "@ionic/lab": "1.0.24",
+        "typescript": "2.8.1"
+    },
+    "description": "An Ionic project",
+    "cordova": {
+        "plugins": {
+            "ionic-plugin-keyboard": {},
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-device": {},
+            "cordova-plugin-splashscreen": {},
+            "cordova-plugin-ionic-webview": {},
+            "cordova-plugin-stripe": {},
+            "twitter-connect-plugin": {
+                "FABRIC_KEY": "8a8076f18e5aae0d6e3b6048698675ea2a419ffb",
+                "TWITTER_KEY": "7fv5HaewT3zZReZQkB1fVuQ6n",
+                "TWITTER_SECRET": "js6jBrLMQgrlRTaVrCep2YOgyGxT2Kk0bVUzajuXmUbRL9Wsrj"
+            },
+            "com.paypal.cordova.mobilesdk": {},
+            "cordova-plugin-geolocation": {
+                "GEOLOCATION_USAGE_DESCRIPTION": "To locate you"
+            },
+            "onesignal-cordova-plugin": {},
+            "phonegap-plugin-barcodescanner": {
+                "ANDROID_SUPPORT_V4_VERSION": "27.+"
+            },
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-googleplus": {
+                "REVERSED_CLIENT_ID": "863717597846-53n70cs20bflt2jbh8oq6kb2tt91ffl0.apps.googleusercontent.com",
+                "PLAY_SERVICES_VERSION": "11.8.0"
+            },
+            "cordova-plugin-facebook4": {
+                "APP_ID": "690174618110288",
+                "APP_NAME": "paymitime"
+            },
+            "cordova-plugin-enable-multidex": {}
+        },
+        "platforms": [
+            "browser",
+            "ios",
+            "android"
+        ]
+    }
+}

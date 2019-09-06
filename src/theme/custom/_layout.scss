@@ -1,0 +1,118 @@
+.scroll-content{
+    padding: 0;
+  }
+  // item-style
+      .item{
+          border-bottom: 1px solid;
+          border-color: rgba(0,0,0,0.1);
+       .item-inner {
+          border-bottom: 0 !important;
+        border-bottom-color: transparent !important;
+        box-shadow: none !important;
+       }
+      }
+    .bg{
+      background-image: url('../assets/imgs/bg-img.jpeg');
+      background-size: cover;
+    }
+    .background{
+      background: $white-b !important;
+      height: 100%;
+    }
+    .mask{
+      position: absolute;
+      top:0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: -1;
+    }
+    .mask-2{
+      @extend .mask;
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .mask-3{
+      @extend .mask;
+      background: rgba(0,0,0, 0.35);
+    }
+    .mask-4{
+      @extend .mask;
+      background: rgba(0, 0, 0, 0.62);
+    }
+  // button items
+    button .item-inner{
+      background: none!important;
+    }
+
+  //Hide all scroll indicators
+  .scroll-bar-indicator
+  {
+    opacity: 0;
+  }
+  ::-webkit-scrollbar
+  {
+    display: none;
+  }
+  // segment style
+  .segment-button {
+      border-radius: 0!important;
+      border: 0!important;
+      border-bottom: 2px solid $white-c!important;
+      font-size: 13px!important;
+      font-weight: 500;
+      padding-top: 6px;
+      height: 4.4rem!important;
+      color: $black-c!important;
+      text-transform: capitalize!important;
+  }
+  .segment-button.segment-activated {
+      background: transparent!important;
+      color: $primary!important;
+      border-color: $primary!important;
+  }
+  // tabs
+    .tab-button:hover:not(.disable-hover),.tab-button[aria-selected=true],
+    .tab-button[aria-selected=true] .tab-button-icon{
+      color: $black!important;
+    }
+
+    //search box
+    .searchbar {
+        border-top: 0!important;
+        border-bottom:0!important;
+        background: transparent!important;
+
+        .searchbar-input{
+          @include placeholder-color($white-b);
+          background: rgba(255, 255, 255, 0.15)!important;
+          color: $black-c;
+          }
+
+      }
+    .searchbar-input{
+      border: 1px solid;
+      border-color: $white-c !important;
+      border-radius: 5px !important;
+      line-height: 2rem !important;
+      box-shadow: none !important;
+    }
+    //search icon
+    .searchbar-search-icon{
+      top: 8px!important;
+      left: 10px!important;
+    } //search box-end
+
+  //toggle buttton
+  .toggle-checked .toggle-icon{
+      background-color: $light-blue!important;
+  }
+  .toggle-checked .toggle-inner{
+      background-color: $primary!important;
+  }
+  //buttons//
+  .home-buttons:hover{
+    background-color: $primary;
+  }
+  .home-buttons.active, .home-buttons.activated{
+    background-color: $primary;
+  }

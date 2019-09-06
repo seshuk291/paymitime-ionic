@@ -1,0 +1,27 @@
+.thankyou-content{
+  .bg-img{
+    position: absolute;
+    top:0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+  }
+  .content-wrapper{
+    z-index: 99;
+    text-align: center;
+    color: $white-a;
+    padding-top: 20%;
+    h1{
+      font-size: 3.2rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 2rem;
+    }
+
+    h6{
+      color: $white-b;
+      line-height: 26px;
+      padding: 1rem 2rem 3rem;
+    }
+  }
+}

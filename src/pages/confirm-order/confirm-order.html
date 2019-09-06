@@ -1,0 +1,89 @@
+<ion-header>
+
+  <ion-navbar class="header-bar">
+    <ion-title>{{'Confirm Order' | translate}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="confirm-order-content">
+  <div class="order-info">
+    <ion-row class="item-price">
+      <ion-col>Payable amount to {{paymentData.restaurant}}</ion-col>
+      <!-- <ion-col text-right>&#8377; </ion-col> -->
+    </ion-row>
+    <ion-row>
+      <ion-col>{{'Total' | translate}}</ion-col>
+      <ion-col text-right>${{paymentData.subTotal}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>{{resturantDetail?.taxInfo?.taxName ? resturantDetail?.taxInfo?.taxName : 'Tax'}}</ion-col>
+      <ion-col text-right>{{resturantDetail?.taxInfo?.taxRate ? resturantDetail?.taxInfo?.taxRate : 0}}%</ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="resturantDetail.coupon.couponApplied">
+      <ion-col>{{'Coupon Applied' | translate}}</ion-col>
+      <ion-col text-right> -{{resturantDetail.coupon.couponName}}</ion-col>
+    </ion-row>
+
+    <ion-row *ngIf=" (deliveryCharge) ">
+      <ion-col>{{'Delivery charge' | translate}}</ion-col>
+      <ion-col text-right>${{deliveryInfo.deliveryCharges}}</ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="loyalty.isApplied">
+      <ion-col>{{'Loyalty Points' | translate}}:</ion-col>
+      <ion-col text-right>$-{{loyalty.loyaltyPoints}}</ion-col>
+    </ion-row>
+
+    <ion-row class="grand-total">
+      <ion-col>{{'Grand Total' | translate}}</ion-col>
+      <ion-col text-right>${{paymentData.GrandTotal |number:'.2-2'}}</ion-col>
+    </ion-row>
+
+  </div>
+  <div class="saved-address">
+
+    <ion-row class="title">
+      <ion-col>{{'Delivery address' | translate}}</ion-col>
+      <ion-col text-right>
+        <span (click)="addAddress()">{{'Add address' | translate}} &nbsp;&nbsp;
+          <ion-icon name="add"></ion-icon>
+        </span>
+      </ion-col>
+    </ion-row>
+    <!-- saved-addresst-card -->
+
+    <ion-list radio-group>
+      <ion-item *ngFor="let item of addressList ; let i = index ">
+       <ion-label><h2>{{item.name}}</h2>
+          <address>{{item.locationName}},{{item.address}}
+            <br> {{item.city}}-{{item.zip}}
+            <br> Contact No.-{{item.contactNumber}}
+          </address>
+        </ion-label>
+      <ion-radio (ionSelect)="selectAddress(item)"></ion-radio>
+  </ion-item>
+    </ion-list>
+
+    <!--//saved-addres-card -->
+    <!-- saved-addresst-card -->
+
+    <!--//saved-addres-card -->
+  </div>
+  <!-- <div class="footer-btn">
+    <button class="submit-btn" ion-item [disabled]="isAllowToProceed" (click)="payment()">
+      {{'Proceed to payment' | translate}}
+      <ion-icon name="arrow-forward" item-right></ion-icon>
+    </button>
+  </div> -->
+</ion-content>
+<ion-footer>
+  <div class="footer-btn">
+    <button class="submit-btn" ion-item [disabled]="isAllowToProceed" (click)="payment()">
+      {{'Proceed to payment' | translate}}
+      <ion-icon name="arrow-forward" item-right></ion-icon>
+    </button>
+  </div>
+</ion-footer>

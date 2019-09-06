@@ -1,0 +1,96 @@
+.welcome-content{
+    position: absolute;
+    background-color: black;
+    .logo{
+        width: 60%;
+        margin: 2rem 0 0 20%;
+    }
+    .overlay{
+        @extend .mask-3;
+    }
+    .left-arrow-bg{
+        border: 45px solid $primary;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: -50px;
+        z-index: 999;
+        /* left: 0; */
+        top: 41%;
+        .arrow-l{
+           margin-left: -11%;
+           position: fixed;
+           top: 45%;
+           height: 38px;
+        }
+    }
+    .right-arrow-bg{
+        @extend .left-arrow-bg;
+        // right: 0;
+        left: -50px;
+        .arrow-r{
+            position: fixed;
+            top: 45%;
+            height: 38px;
+        }
+    }
+    .details{
+        top: 21%;
+        //margin-left: 6rem;
+        @extend .info;
+        background: rgba(0,0,0,0.2);
+        .title{
+          font-weight: 700!important;
+        }
+        p{
+          color: $white-a;
+          font-weight: 500;
+        }
+    }
+    .swiper-container {
+        //margin-left: -64px;
+        width: auto;
+        height: auto;
+    }
+    .swiper-slide{
+        width: auto;
+        height: fit-content;
+    }
+    ion-slides {
+        align-items: center;
+        display: block;
+        width: 100%;
+        height: fit-content;
+    }
+    .swiper-slide img {
+        width: 500px;
+        max-width: 500px;
+        height: 540px;
+        max-height: 540px;
+        //border-radius: 50%;
+    }
+    .swiper-pagination-bullets {
+        //left: 4rem;
+        bottom: 155px;
+    }
+    .swiper-pagination-bullet {
+        border: 2px solid white;
+        margin: 0 10px;
+    }
+    .swiper-pagination-bullet-active {
+        background: $primary;
+        opacity: 1;
+    }
+    .swiper-pagination-bullet {
+        border-radius: 100%;
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        pointer-events: auto;
+    }
+    .swiper-pagination-bullet-active {
+        margin: 0 10px;
+        border: 2px solid white;
+    }
+}

@@ -1,0 +1,66 @@
+<ion-header>
+
+  <ion-navbar class="header-bar">
+    <ion-title>{{restaurantName}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="chat-content animated fadeIn">
+  <div *ngIf="(chatList.length > 0)">
+    <section class="chat-box" *ngFor="let chat of chatList">
+      <!-- chat-box-item -->
+      <ion-row *ngIf="chat.sentBy=='Manager'">
+        <ion-col col-2 text-center>
+          <img src="{{participantsInfo.logo? participantsInfo.logo : 'assets/imgs/p3.jpg'}}">
+        </ion-col>
+        <ion-col col-10>
+          <div class="text-box">
+            {{chat.message}}
+            <span>{{chat.timestamp | date:'short'}}</span>
+          </div>
+        </ion-col>
+      </ion-row>
+      <!--// chat-box-item -->
+      <ion-row *ngIf="chat.sentBy !='Manager'">
+        <ion-col col-10>
+          <div class="text-box">
+            {{chat.message}}
+            <span>{{chat.timestamp | date:'short'}}</span>
+          </div>
+        </ion-col>
+        <ion-col col-2 text-center>
+          <img src="{{participantsInfo.userLogo? participantsInfo.userLogo: 'assets/imgs/p3.jpg'}}">
+        </ion-col>
+      </ion-row>
+      <!--// chat-box-item -->
+
+      <!--// chat-box-item -->
+    </section>
+  </div>
+  <div *ngIf="!(chatList.length > 0)">
+    <ion-item>
+      <marquee>Chat has not been initialized yet. Send a message to start chat.!</marquee>
+    </ion-item>
+  </div>
+</ion-content>
+
+<form #f="ngForm" (ngSubmit)="onSend(f)">
+  <ion-footer class="footer-row">
+    <ion-row>
+      <ion-col col-9>
+        <ion-textarea placeholder="Type here..." name="message" [(ngModel)]=chatData.message></ion-textarea>
+      </ion-col>
+      <ion-col col-3 text-right>
+        <button ion-button clear class="send-btn">
+          <ion-icon name="send"></ion-icon>
+        </button>
+        <!-- <button ion-button clear class="upload-btn">
+        <ion-icon name="attach"></ion-icon>
+        <input type="file" class="upload-input" />
+      </button> -->
+      </ion-col>
+    </ion-row>
+  </ion-footer>
+</form>

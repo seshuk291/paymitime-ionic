@@ -1,0 +1,24 @@
+page-home {
+  button {
+    --border-radius: 20px;
+  }
+}
+
+.card {
+  height: 100% !important;
+}
+
+* {
+  font-family: roboto;
+}
+
+ion-card img {
+  object-fit: cover;
+}
+
+.button-md {
+  width: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+  height: 8.6rem;
+}

@@ -1,0 +1,13 @@
+.add-card_content{
+  .all-forms{
+    @extend .background;
+    color: $black;
+    .forms{
+      padding: 1rem 1rem 0 1rem;
+      .item{
+        border-radius: 5px;
+        .text-input{  @include placeholder-color($black-a);}
+      }
+    }
+  }
+}

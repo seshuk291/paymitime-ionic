@@ -1,0 +1,37 @@
+.landin-content{
+    @extend .bg;
+    background-position-x: 58%;
+    .overlay{ @extend .mask-4;
+     }
+        .logo{
+          width: 21rem;
+          margin: 5rem auto 7rem;
+          display: block;
+        }
+        .button{
+            padding: 0 11%;
+            .home-buttons{
+                border: 2px solid $primary;
+                @extend .submit-buttons;
+                margin-bottom: 2.5rem;
+            }
+        }
+        p{
+          color: $white-a;
+          font-weight: 500;
+          margin-bottom: 1.8rem;
+        }
+        .login-options{
+            img{
+                margin-right: 2rem;
+                &:last-child{
+                  margin: 0;
+                }
+            }
+        }
+        .footer-line{
+            img{
+                width: 5%;
+            }
+        }
+}

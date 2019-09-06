@@ -1,0 +1,61 @@
+.confirm-order-content{
+background:  $lighter-blue;
+  .order-info{
+      font-weight: 500;
+      color: $black-b;
+      background: $white;
+      margin: 9px;
+      padding: 11px 20px;
+      border-radius: 6px;
+      .item-price{
+        margin-bottom: 1.4rem;
+        font-size: 15px;
+      }
+      .grand-total{
+        font-size: 15px;
+        margin-top: 1rem;
+        padding-top: 1.3rem;
+        border-top: 2px solid $white-c;
+      }
+    } //order-info
+    .saved-address{
+      .title{
+        font-weight: 600;
+        color: $primary;
+        padding: 1rem;
+      }
+        .address{
+          position: relative;
+          padding: 1.2rem;
+          h2{
+            padding-left: 1rem;
+            font-weight: 500;
+            color: $black-b;
+          }
+          address{
+            margin: 8px;
+            color: $black-b;
+          }
+          .cancel-button{
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            font-size: 18px;
+            color: $black-c;
+          }
+        }
+      }//saved-address
+
+}
+.footer-btn{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  .submit-btn{
+    background: $primary;
+    color: $white-a;
+    font-weight: 600;
+    text-align: center;
+  }
+}//foter-btn

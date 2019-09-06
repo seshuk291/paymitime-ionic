@@ -1,0 +1,27 @@
+<ion-content class="welcome-content">
+  <img src="assets/imgs/logo.png" class="logo" alt="kitchenapp-logo">
+  <!-- <div class="left-arrow-bg">
+    <img src="../assets/imgs/frwd.png" class="arrow-l">
+  </div>
+  <div class="right-arrow-bg" >
+    <img src="assets/imgs/back.png" class="arrow-r" (click)="nextSlideNav()">
+  </div> -->
+  <ion-slides pager slidesPerView="1" effect="coverflow" loop="true" speed="800" pager="true" does-continue='true'>
+    <ion-slide *ngFor="let item of display">
+      <div class="overlay"></div>
+      <img src={{item.img}}>
+      <div text-center class="details">
+        <h1 class="title" text-center>{{item.title}}
+          <div class="btm-line"></div>
+        </h1>
+        <p class="describe" text-wrap text-center>{{item.describe}}</p>
+        <p class="tagline" text-wrap text-center>{{item.tagline}}
+          <span>&nbsp;&nbsp;{{'HUNGER MUNCH' | translate}}</span>
+        </p>
+      </div>
+    </ion-slide>
+  </ion-slides>
+  <div text-center>
+    <a [navPush]="'HomePage'" (click)="goToHome()">{{'Skip now' | translate}}</a>
+  </div>
+</ion-content>

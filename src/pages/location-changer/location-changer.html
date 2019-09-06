@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar class="header-bar">
+    <ion-title>Choose Location</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="delivery-address_content">
+  <ion-card padding class="location" (click)="onClickUseCurrentLocation()">
+    <ion-icon ios="ios-locate-outline" md="md-locate" padding-right></ion-icon>
+    <h2>Use my current location</h2>
+  </ion-card>
+  <!-- <ion-card padding class="location" (click)="onClickUsePreviousLocation()">
+    <ion-icon ios="ios-locate-outline" md="md-locate" padding-right></ion-icon>
+    <h2>Use Previous location</h2>
+  </ion-card> -->
+  <ion-card>
+    <input placeholder="Search Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="search" #search>
+  </ion-card>
+  <ion-card>
+    <ion-list>
+      <ion-list-header>
+        Recent Locations
+      </ion-list-header>
+      <ion-item *ngFor="let position of previousPositions; let i=index" (click)="onClickItem(position)">{{position.name}}
+        <ion-icon name="trash" item-right (click)="onClickDelete(i)"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+
+
+  <!-- following agm-part for future use -->
+  <!-- <ion-card class="card-map">
+    <agm-map [latitude]="destination?.latitude" [longitude]="destination?.longitude" [zoom]="zoom">
+      <agm-marker [latitude]="destination?.latitude" [longitude]="destination?.longitude"></agm-marker>
+      <div>
+        <agm-map-directions [origin]="origin" [destination]="destination">
+        </agm-map-directions>
+      </div>
+    </agm-map>
+  </ion-card> -->
+
+</ion-content>
+
+<ion-footer>
+  <button ion-button block class="dir-btn" [disabled]="!positionName" (click)="onChooseLocation()">
+    <ion-icon name="pin"></ion-icon>&nbsp; Choose {{positionName}}
+  </button>
+</ion-footer>

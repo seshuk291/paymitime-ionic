@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar class="header-bar">
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <div class="animated fadeIn">
+    <ion-item>
+      <ion-label>Push Notifications </ion-label>
+      <ion-checkbox color="dark" checked="true"></ion-checkbox>
+    </ion-item>
+
+  </div>
+  <ion-list>
+    <ion-item>
+      <ion-label>{{'Languages' | translate}}</ion-label>
+      <ion-select [(ngModel)]="value" (ionChange)="changeLanguage()">
+        <ion-option *ngFor="let option of options" value="{{option.value}}"> {{option.language | translate}}</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+</ion-content>

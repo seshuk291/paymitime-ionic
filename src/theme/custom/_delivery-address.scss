@@ -1,0 +1,40 @@
+.delivery-address_content{
+  @extend .background;
+  margin-top: 20px;
+  color: $grey;
+  h2{
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: $black-a;
+  }
+  h4{
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: $grey;
+  }
+  p{
+    font-size: 1.3rem;
+    color: $grey;
+  }
+  .location{
+    display: inline-flex;
+    ion-icon{
+      color: $blood-red;
+      font-size: 2rem;
+    }
+  }
+  .search{
+    display: inline-flex;
+    height: 45px;
+    width: 100%;
+    border: 0;
+    padding-left: 15px;
+    ion-icon{
+      font-size: 2rem;
+      color: $grey;
+    }
+  }
+  .signed-in{
+    border-top: 2px solid grey;
+  }
+}

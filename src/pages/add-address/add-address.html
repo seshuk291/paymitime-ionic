@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar class="header-bar">
+    <ion-title> {{'Add Address' | translate}} </ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="address-content">
+  <form (ngSubmit)="onSubmitAddress()" #f="ngForm">
+    <div class="wrapper">
+      <h6>
+        <ion-icon name="home"></ion-icon>&nbsp;&nbsp;{{'Add Address' | translate}}
+      </h6>
+      <ion-item>
+        <ion-input type="text" placeholder="{{'Name' | translate}}" name="name" [(ngModel)]="address.name" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="{{'City' | translate}}" name="city" [(ngModel)]="address.city" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" placeholder="{{'Pincode' | translate}}" name="zip" [(ngModel)]="address.zip" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="{{'Area/Locality' | translate}}" name="locationName" [(ngModel)]="address.locationName"
+          required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" placeholder="{{'Mobile' | translate}}" name="contactNumber" [(ngModel)]="address.contactNumber"
+          required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-textarea placeholder="Address" name="{{'address' | translate}}" [(ngModel)]="address.address" required></ion-textarea>
+      </ion-item>
+    </div>
+    <!-- <div class="footer-btn">
+      <button class="submit-btn" ion-item type="submit" [disabled]="!f.valid">
+        {{'Save' | translate}} &nbsp;
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </div> -->
+  </form>
+
+</ion-content>
+<ion-footer>
+  <form (ngSubmit)="onSubmitAddress()" #f="ngForm">
+    <div class="footer-btn">
+      <button class="submit-btn" ion-item type="submit" [disabled]="!f.valid">
+        {{'Save' | translate}} &nbsp;
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </div>
+  </form>
+</ion-footer>

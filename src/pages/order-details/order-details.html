@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-navbar class="header-bar">
+    <ion-title>{{'Order Details' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="track-order_content">
+  <div class="order-details-content">
+    <ion-row class="address" padding>
+      <ion-col col-1 class="d-col">
+        <div class="circle"></div>
+        <div class="vertical-line"></div>
+      </ion-col>
+      <ion-col col-7>
+        <h6 class="active">{{'Delivery Address' | translate}}</h6>
+        <p>{{'Name' | translate}}: {{orderDetail?.shippingAddress?.name}}
+          <br/>{{'Address' | translate}}: {{orderDetail?.shippingAddress?.locationName}}
+          <br/> {{orderDetail?.shippingAddress?.city}}-{{orderDetail.shippingAddress?.zip}}
+          <br/>{{'Contact No' | translate}}:{{orderDetail.shippingAddress?.contactNumber}}
+        </p>
+      </ion-col>
+    </ion-row>
+    <div class="order-info">
+      <ion-row>
+        <ion-col col-1>
+          <ion-icon name="basket"></ion-icon>
+        </ion-col>
+        <ion-col col-10>
+          <h6>{{'Thank you for order' | translate}}</h6>
+          <h6>{{'Restaurant' | translate}}:{{orderDetail?.restaurantName}},&nbsp; {{'Order Id' | translate}}: {{orderDetail?.orderID}}</h6>
+        </ion-col>
+      </ion-row>
+      <!-- order -list -->
+      <div class="order-list" *ngFor="let product of orderDetail.productDetails">
+        <ion-row>
+          <ion-col col-7>
+            <span></span>{{product.title}}</ion-col>
+          <ion-col col-5 text-right>{{product.Quantity}} X {{product.totalPrice}}</ion-col>
+        </ion-row>
+        <ion-row *ngFor="let ratingData of ratingList">
+          <ion-col col-7>
+            <span *ngIf="ratingData.product == product.productId">
+              <rating name="rating" id="rating" [(ngModel)]="ratingData.rating" readOnly="true" max="5" emptyStarIconName="star-outline"
+                halfStarIconName="star-half" starIconName="star" nullable="false">
+              </rating>
+            </span>
+          </ion-col>
+          <ion-col col-5 text-right *ngIf="(ratingData?.product != product.productId)|| showRating ">
+            <a (click)="rateProduct(product.productId)">{{'Rate' | translate}}</a>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col text-right *ngIf="showRating ">
+            <a (click)="rateProduct(product.productId)">{{'Rate' | translate}}</a>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <ion-row class="price-list">
+        <ion-col col-8>{{'Subtotal' | translate}}</ion-col>
+        <ion-col col-4 text-right>$ &nbsp;{{orderDetail.subTotal}}</ion-col>
+        <ion-col col-8>{{'Tax' | translate}}</ion-col>
+        <ion-col col-4 text-right> {{orderDetail.charges}}%</ion-col>
+        <span>
+
+        </span>
+      </ion-row>
+      <ion-row *ngIf="orderDetail.deliveryCharge != null">
+        <ion-col col-8>{{'Delivery Charge' | translate}}</ion-col>
+        <ion-col col-4 text-right>$ &nbsp;{{orderDetail?.deliveryCharge}}</ion-col>
+      </ion-row>
+      <ion-row class="total">
+        <ion-col col-8>{{'Total' | translate}}</ion-col>
+        <ion-col col-4 text-right>$ &nbsp;{{orderDetail.payableAmount}}</ion-col>
+      </ion-row>
+    </div>
+
+  </div>
+</ion-content>

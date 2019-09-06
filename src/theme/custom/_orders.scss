@@ -1,0 +1,83 @@
+.orders-content {
+  background: $white-a;
+  .segment-button,
+  .segment-button.segment-activated {
+    background: $white !important;
+  }
+  .no-order-heading {
+    color: $black-c;
+    margin-top: 50%;
+  }
+  .card {
+    border-radius: 0px;
+    margin-bottom: .6rem;
+  }
+  .product-info {
+    padding: 5px 5px;
+    position: relative;
+    img {
+      height: 75px;
+    }
+    h2 {
+      font-weight: 500;
+      color: $black-b;
+      margin: 0 0 5px 0;
+    }
+    h6 {
+      font-size: 13px;
+      color: $black-c;
+      span {
+        color: $black;
+      }
+    }
+    h5 {
+      font-size: 14px;
+      color: $primary;
+      margin: 0;
+      position: absolute;
+      top: 77%;
+      right: 4%;
+      .icon {
+        color: $primary;
+        font-size: 1.6rem;
+      }
+      a {
+        color: $danger;
+      }
+    }
+  } //product-info
+  .other-info {
+    display: inline-flex;
+    margin-top: 6px;
+    padding: 0 15px 5px;
+    h6 {
+      color: $black-a;
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+    h5 {
+      font-weight: 500;
+    }
+  } //other-info
+  .cancel-order-content {
+    background: $white-a;
+    height: 100%;
+    .cancel-img {
+      padding: 40% 36% 20%;
+    }
+    .head-line {
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: $blood-red;
+      span {
+        font-size: 1.4rem;
+        color: $black-c;
+        margin: 5px;
+      }
+    }
+    p {
+      font-size: 1.2rem;
+      color: $black-c;
+    }
+  }
+}

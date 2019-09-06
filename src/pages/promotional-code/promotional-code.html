@@ -1,0 +1,24 @@
+<ion-header>
+
+  <ion-navbar class="header-bar">
+    <ion-title>{{'Promotional Code' | translate}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div class="promo-code-item-wrapper">
+    <ion-item class="promo-code-item animated animated pulse">
+      <ion-input type="text" placeholder="Enter Promo Code" [(ngModel)]="promoCode.couponName" name="promoCode" readonly></ion-input>
+    </ion-item>
+    <button ion-button [disabled]="!isCouponApplied" (click)="applyCoupon()">{{'Apply' | translate}}</button>
+  </div>
+  <ion-list radio-group>
+    <ion-item *ngFor="let coupon of couponList">
+      <ion-label>{{'Coupon Name' | translate}}:{{coupon?.couponName}}</ion-label>
+      <ion-radio (ionSelect)="onSelectCoupon(coupon)"></ion-radio>
+
+    </ion-item>
+  </ion-list>
+</ion-content>

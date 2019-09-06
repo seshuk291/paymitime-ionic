@@ -1,0 +1,29 @@
+.address-content{
+  background: $white-b;
+  .wrapper{
+      padding: 1rem;
+      .item{
+        border-radius: 5px;
+        margin-bottom: 1rem;
+        .text-input{  @include placeholder-color($black-a);}
+      }
+      h6{
+          color: $black-c;
+          font-weight: 500;
+      }
+  }
+}
+.footer-btn{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  .submit-btn{
+    background: $primary;
+    color: $white-a;
+    font-weight: 600;
+  }
+  .label{
+    text-align: center;
+  }
+}

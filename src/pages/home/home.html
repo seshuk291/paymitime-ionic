@@ -1,0 +1,270 @@
+<ion-header>
+  <ion-navbar class="header-bar" hideBackButton="true">
+    <ion-title> {{'PAYMITIME' | translate}}</ion-title>
+    <button ion-button icon-only class="menu-button" menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-buttons padding-right end class="header-btn">
+      <button ion-button color="$white-a" clear class="search-button" icon-only (click)="goToLocationChangerPage()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <!-- <button ion-button clear color="$white-a" *ngIf="searchBoxVisible" (click)="btnVisible()">
+        <ion-icon name="close"></ion-icon>
+      </button> -->
+    </ion-buttons>
+    <!-- <ion-searchbar placeholder="Search....." *ngIf="searchBoxVisible">
+    </ion-searchbar> -->
+  </ion-navbar>
+</ion-header>
+<ion-content class="home-content">
+  <ion-grid class="custom-grid">
+    <ion-row>
+      <div class="offer-content">
+        <ion-slides autoplay='3000' speed="2000" loop='true'>
+          <ion-slide *ngFor="let item of offers">
+            <div class="offer overlay">
+              <h1 class="title" text-center>{{item.title}}</h1>
+              <h6 class="describe" text-center>{{item.describe}}</h6>
+              <p margin-bottom class="tagline" text-wrap text-center>{{item.tagline}}</p>
+            </div>
+            <!--details-->
+            <img src={{item.img}}>
+          </ion-slide>
+        </ion-slides>
+      </div>
+    </ion-row>
+
+    <!-- <div>
+         <ion-row text-wrap class="pmt-row">
+         <ion-col class="pmt-col" col-4>
+         <img src="assets/imgs/ad1.jpg" />
+         </ion-col>
+         <ion-col class="pmt-col" col-4>
+         <img src="assets/imgs/ad2.png" />
+         </ion-col>
+         <ion-col class="pmt-col" col-4>
+         <ion-slides *ngIf="ads.length" autoplay='2500' speed='2000' loop='true'>
+         <ion-slide *ngFor="let ad of ads">
+         <div>
+         <img src={{ad.img}} />
+         </div>
+         </ion-slide>
+         </ion-slides>
+         </ion-col>
+         </ion-row>
+         </div>
+    -->
+
+<!-- Top Slide List -->
+<div>
+  <ion-row text-wrap class="hot-key-row">
+    <ion-slides >
+      <ion-slide>
+        <ion-row>
+          <ion-col col-4>
+            <button ion-button solid (click)="scan()">
+              <div>
+                <ion-icon name="ios-leaf-outline"></ion-icon>
+                <label class="hot-key-label">Vegetarian</label>
+              </div>
+            </button>
+          </ion-col>
+          <ion-col col-4>
+            <button ion-button solid  (click)="scan()">
+              <div>
+                <ion-icon name="ios-flame-outline"></ion-icon>
+                <label class="hot-key-label">Hot Deals</label>
+              </div>
+            </button>
+          </ion-col>
+          <ion-col col-4>
+            <button ion-button solid  (click)="scan()">
+              <div>
+                <ion-icon name="ios-moon-outline"></ion-icon>
+                <label class="hot-key-label">Late Night</label>
+              </div>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-slide>
+
+      <ion-slide>
+        <ion-row>
+          <ion-col text-wrap col-4>
+            <button ion-button solid (click)="scan()">
+              <div>
+                <ion-icon name="ios-cash-outline"></ion-icon>
+                <label class="hot-key-label">Pocket Friendly</label>
+              </div>
+            </button>
+          </ion-col>
+          <ion-col col-4>
+            <button ion-button solid (click)="scan()">
+              <div>
+                <ion-icon name="ios-trophy-outline"></ion-icon>
+                <label class="hot-key-label">Top Rated</label>
+              </div>
+            </button>
+          </ion-col>
+          <ion-col col-4>
+            <button ion-button solid (click)="scan()">
+              <div>
+                <ion-icon name="ios-ice-cream-outline"></ion-icon>
+                <label class="hot-key-label">Desserts</label>
+              </div>
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-slide>
+    </ion-slides>
+  </ion-row>
+</div>
+<!--stuff-->
+
+
+
+  <!--offer-->
+  <div class="first-content">
+    <ion-row>
+      <ion-col col-12>
+        <div margin-left class="title">
+          <ion-icon name="restaurant"></ion-icon> &nbsp; {{'Restaurants Near You' | translate}}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 *ngFor="let item of restaurantListByPosition">
+        <ion-card (click)="onSelectRestaurant(item.id)">
+          <ion-badge class="badge" item-start *ngIf="item.rating!=0">{{item?.rating | number: '.1-1'}} &nbsp;
+            <ion-icon name="star"></ion-icon>
+          </ion-badge>
+
+          <div *ngIf="item.restaurant_image && item.restaurant_image.length > 0">
+            <img src="{{ apiUrl + item.restaurant_image[0].url}}" class="card-img">
+          </div>
+          <!-- <div *ngIf="item.restaurantLogo == null">
+            <img src="assets/imgs/default-restaurant.jpg" class="card-img">
+          </div> -->
+          <ion-card-content class="details">
+            <h1 class="name" padding-left text-left>{{item.restaurant_name}}</h1>
+            <p class="add">{{item.restaurant_address}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <p class="view">
+          <a class="link" (click)="goToAllRestaurantPage('position')">{{'View All' | translate}} &nbsp;
+            <ion-icon name="arrow-round-forward"></ion-icon>
+          </a>
+        </p>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <!--slider v1-->
+
+<div class="custom-slides">
+  <b>IN THE SPOTLIGHT</b>
+  <p>DISCOVER NEW TASTES AROUND YOU</p>
+  <ion-slides *ngIf="ads.length" slidesPerView="3">
+    <ion-slide *ngFor="let ad of ads">
+      <div>
+        <img src={{ad.img}} />
+      </div>
+    </ion-slide>
+  </ion-slides>
+</div>
+
+
+  <!--Restaurant List-content-->
+
+  <div class="first-content">
+    <ion-row>
+      <ion-col col-12>
+        <div margin-left class="title">
+          <ion-icon name="restaurant"></ion-icon> &nbsp; {{'Newly Arrived Restaurants' | translate}}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 *ngFor="let item of restaurantListAsNewlyArrived">
+        <ion-card class="card" (click)="onSelectRestaurant(item.restaurantID)">
+          <ion-badge class="badge" item-start *ngIf="item.rating!=0">{{item?.rating | number: '.1-1'}} &nbsp;
+            <ion-icon name="star"></ion-icon>
+          </ion-badge>
+          <div *ngIf="item.restaurant_image && item.restaurant_image.length > 0">
+            <img src="{{ apiUrl + item.restaurant_image[0].url}}" class="card-img">
+          </div>
+          <ion-card-content class="details">
+            <h1 class="name" padding-left text-left>{{item.restaurant_name}}</h1>
+            <p class="add">{{item.restaurant_address}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <p class="view">
+          <a class="link" (click)="goToAllRestaurantPage('newly')">{{'View All' | translate}} &nbsp;
+            <ion-icon name="arrow-round-forward"></ion-icon>
+          </a>
+        </p>
+      </ion-col>
+    </ion-row>
+  </div>
+
+<!--slider v1-->
+
+<!-- <div class="custom-slides">
+  <img class="ads-header-img" src="http://chittagongit.com/images/icon-lunch/icon-lunch-0.jpg"/>
+  <b>IN THE SPOTLIGHT 2</b>
+  <p>DISCOVER NEW TASTES AROUND YOU</p>
+  <ion-slides *ngIf="ads.length" slidesPerView="3">
+    <ion-slide *ngFor="let ad of ads">
+      <div>
+        <img src={{ad.img}} />
+      </div>
+    </ion-slide>
+  </ion-slides>
+</div> -->
+
+
+  <div class="first-content">
+    <ion-row>
+      <ion-col col-12>
+        <div margin-left class="title">
+          <ion-icon name="restaurant"></ion-icon> &nbsp; {{'Top Rated Restaurants' | translate}}</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 *ngFor="let item of restaurantListByRating">
+        <ion-card class="card" (click)="onSelectRestaurant(item.restaurantID)">
+          <ion-badge class="badge" item-start *ngIf="item.rating!=0">{{item?.rating | number: '.1-1'}} &nbsp;
+            <ion-icon name="star"></ion-icon>
+          </ion-badge>
+          <div *ngIf="item.restaurant_image && item.restaurant_image.length > 0">
+            <img src="{{ apiUrl + item.restaurant_image[0].url}}" class="card-img">
+          </div>
+
+          <ion-card-content class="details">
+            <h1 class="name" padding-left text-left>{{item.restaurant_name}}</h1>
+            <p class="add">{{item.restaurant_address}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <p class="view">
+          <a class="link" (click)="goToAllRestaurantPage('rating')">{{'View All' | translate}} &nbsp;
+            <ion-icon name="arrow-round-forward"></ion-icon>
+          </a>
+        </p>
+      </ion-col>
+    </ion-row>
+  </div>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+
+    <ion-fab right bottom #fab>
+      <button ion-fab (click)="scan()">
+         <ion-icon name="qr-scanner"></ion-icon>
+      </button>
+    </ion-fab>
+</ion-footer>

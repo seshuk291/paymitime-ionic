@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-navbar class="header-bar">
+    <ion-title>{{"About" | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="about_content" padding>
+  <div class="animated fadeInUp">
+    <ion-card class="about-button">
+      <ion-buttons padding>{{"Rate us in Google Play" | translate}}</ion-buttons>
+    </ion-card>
+    <ion-card class="about-button" (click)="termsPage()">
+      <ion-buttons padding>{{"Terms and Conditions" | translate}}</ion-buttons>
+    </ion-card>
+    <ion-card class="about-button" (click)="privacyPage()">
+      <ion-buttons padding>{{"Privacy policy" | translate}}</ion-buttons>
+    </ion-card>
+  </div>
+</ion-content>

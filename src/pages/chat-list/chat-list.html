@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar class="header-bar">
+    <ion-title>{{'Chat' | translate}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="chat-list-content">
+  <div *ngIf="!notice">
+    <ion-list *ngFor="let user of chatList" (click)="gotoChat(user._id,user.location)">
+
+      <!--   <ion-list-header>Today</ion-list-header> -->
+
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="{{user.image? user.image : 'assets/imgs/rd1.jpg'}}">
+        </ion-avatar>
+        <h2>{{user.restaurantName}}</h2>
+        <p>{{user.lastMessage}}</p>
+        <ion-note item-end>{{user.lastmsgTime | date:'short'}}</ion-note>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div *ngIf="notice">
+    <ion-item>
+      <marquee>{{notice}}</marquee>
+    </ion-item>
+  </div>
+
+</ion-content>

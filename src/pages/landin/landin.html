@@ -1,0 +1,25 @@
+<ion-content class="landin-content">
+  <div class="overlay"></div>
+  <img src="assets/imgs/logo.png" class="logo" alt="kitchenapp-logo">
+  <ion-row class="button">
+    <button ion-button class="home-buttons" full outline (click)="OnGoToLogin()">
+      {{'Login' | translate}}
+    </button>
+    <button ion-button class="home-buttons" full outline (click)="OnGoToSignUp()">
+      {{'Sign up' | translate}}
+    </button>
+  </ion-row>
+  <p text-center>{{'Or Signin with' | translate}}</p>
+  <div class="login-options" text-center>
+    <img src="assets/imgs/fb.png" alt="facebook icon" (click)="facebookLogin()">
+    <img src="assets/imgs/tw.png" alt="twitter icon" (click)="twitterLogin()">
+    <img src="assets/imgs/gp.png" alt="google-plus icon" (click)="googleLogin()">
+  </div>
+  <!--login-options-->
+  <div text-center class="footer-line">
+    <p>{{'Explore the Varities' | translate}}&nbsp;&nbsp;
+      <img src="assets/imgs/run.png">
+    </p>
+  </div>
+  <!--footer-line-->
+</ion-content>

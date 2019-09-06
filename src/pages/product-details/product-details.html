@@ -1,0 +1,90 @@
+<ion-header no-border>
+  <ion-navbar class="header-bar transparent">
+    <ion-title>{{productData.title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="product-details_content">
+  <div class="product-img">
+    <img src="{{productData.imageUrl}}">
+    <!--  -->
+    <div class="overlay-img">
+      <button clear class="toggle-icon" (click)="toggle()">
+        <ion-icon [name]="visible ? 'heart-outline' :'heart'"></ion-icon>
+      </button>
+      <div class="overlay">
+        <p text-center>$ {{selectedPrice==0?productData.variants[0].price:selectedPrice}}</p>
+      </div>
+    </div>
+    <!--overlay-img-->
+  </div>
+  <!--product-img-->
+  <div class="product-details">
+
+    <ion-row>
+      <ion-col col-8 class="title">
+        <h2>{{productData.title}}</h2>
+      </ion-col>
+      <ion-col col-4 class="amount" text-right>
+        <div class="counter">
+          <div class="count" (click)="reduceQuantity()">-</div>
+          <div class="num">{{productCount}}</div>
+          <div class="count" (click)="increaseQuantity()">+</div>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <p text-wrap>{{productData.brand}}</p>
+    <span *ngIf="productData.variants[0].Discount > 0">
+       <h3>{{'Offers' | translate}}</h3>
+       <div class="sub-line"></div>
+    </span>
+    <span text-wrap *ngIf="productData.variants[0].Discount > 0">
+        <div class="off">
+           <h2>{{productData.variants[0].Discount}} % Discount</h2>
+        </div>
+    </span>
+    <h3>{{'Sizes & Prices' | translate}}</h3>
+    <div class="sub-line"></div>
+    <!--radio selection-->
+
+    <ion-list radio-group class="quantity">
+      <ion-item *ngFor="let item of productData.variants ; let i = index ">
+        <ion-label>{{item?.weight}}{{item?.unit}}{{item?.size}}&nbsp;
+          <del>{{(item.MRP==item.price)?'':'$'+item.MRP}}</del>&nbsp;&nbsp;${{item.price}}
+        </ion-label>
+        <ion-radio (ionSelect)="sizeOptions(item.price,i)"></ion-radio>
+      </ion-item>
+    </ion-list>
+
+    <!--Extra -->
+    <div *ngIf="extraIngredients.length>0">
+      <ion-list class="extra">
+        <h3>{{'Extra' | translate}}</h3>
+        <div class="sub-line"></div>
+        <ion-item *ngFor="let extra of extraIngredients">
+          <ion-label item-left>{{extra.name}} - ${{extra.price}}</ion-label>
+          <ion-checkbox item-right color="dark" (ionChange)="onChangeExtra($event, extra)"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </div>
+
+  </div>
+
+  <!-- <p padding-left class="note">Add a note(Eg. Extra sauces and cheese)</p> -->
+
+  <!-- <ion-row  class="total">
+    <ion-col col-10>
+      <h5>Per Unit Price :</h5>
+    </ion-col>
+    <ion-col col-2 text-right>
+      <h6>$ {{productData.variants[0].price}}</h6>
+    </ion-col>
+  </ion-row> -->
+</ion-content>
+<ion-footer>
+  <button ion-button full class="footer-btn" (click)="addToCart()">
+    {{'Add to cart' | translate}} &nbsp;&nbsp;&nbsp;
+    <ion-icon name="arrow-forward" float-left></ion-icon>
+  </button>
+</ion-footer>

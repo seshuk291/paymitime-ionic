@@ -1,0 +1,26 @@
+<ion-content class="form-content login">
+  <form>
+    <div class="overlay">
+      <img src="assets/imgs/logo.png" class="logo" alt="kitchenapp-logo">
+      <p>Please submit your OTP which has been sent to your registered mobile number.</p>
+      <br>
+      <div class="form-list">
+        <ion-item class="forms">
+          <ion-input type="text" placeholder="one time password" name="text" [(ngModel)]="otp"></ion-input>
+          <ion-icon item-end name="person"></ion-icon>
+        </ion-item>
+      </div>
+      <!--forms-->
+
+      <ion-row class="buttons">
+        <button ion-button class="login-btn" full type="submit" (click)="onClickSubmit()">Submit</button>
+      </ion-row>
+      <p class="login" margin-right>Or</p>
+      <ion-row class="buttons">
+        <button ion-button class="login-btn" full type="submit" (click)="onClickSignup()">Create New Account </button>
+      </ion-row>
+      <!--footer-line-->
+    </div>
+    <!--overlay-->
+  </form>
+</ion-content>

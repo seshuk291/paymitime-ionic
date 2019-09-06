@@ -1,0 +1,59 @@
+.all-products_content {
+  .label {
+    margin: 0 !important;
+    white-space: normal;
+  }
+  img {
+    width: 100px!important;
+    height: 70px!important;
+    margin: 0 !important;
+  }
+  h2 {
+    font-weight: 500;
+    font-size: 14px;
+  }
+  h5 {
+    font-size: 1.3rem;
+    color: $black-trans;
+  }
+  h4 {
+    font-size: 1.1rem;
+    color: $primary;
+    float: right;
+  }
+  h6 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: $blood-red;
+  }
+  p {
+    font-size: 1.1rem;
+    font-style: normal;
+  }
+  
+  .headline {
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+  .empty-favourite {
+    text-align: center;
+    color: $black-c;
+    margin-top: 38%;
+    padding: 0 2rem;
+    .icon {
+      font-size: 5.4rem;
+      color: $black-c;
+    }
+  }
+  .badge{
+    position: absolute;
+    top: 0px;
+    right: 0;
+    border-radius: 8px;
+  }
+  .close{
+    position: absolute;
+    top: 0px;
+    right: 5px;
+  }
+}

@@ -1,0 +1,133 @@
+.track-order_content {
+  .order-info {
+    border-bottom: 5px solid $white-b;
+    .order-details {
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: $black-b;
+      p {
+        margin: 5px 0;
+        font-size: 1.3rem;
+        color: $black-b;
+      }
+    }
+  }
+  .order-track-content {
+    .particulars {
+      height: 80px;
+      .col {
+        overflow-y: hidden;
+      }
+      img {
+        margin-top: 2px;
+      }
+      .circle {
+        border: 6px solid grey;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        margin: 0 auto;
+      }
+      .vertical-line {
+        background: gray;
+        height: 100%;
+        width: 3px;
+        margin: 4px auto 0;
+      }
+
+      .active {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: $primary;
+      }
+      p {
+        margin: 0;
+        font-size: 1.2rem;
+        color: $black;
+        margin-top: 5px;
+      }
+    }
+  }
+  .particulars:last-child {
+    .vertical-line {
+      border: 0;
+    }
+  }
+  //order-details
+  .order-details-content {
+    .address {
+      h6 {
+        color: $black-b;
+      }
+      p {
+        color: $black-c;
+        font-size: 15px;
+        margin: 0;
+      }
+      .d-col {
+        overflow: hidden;
+      }
+      .circle {
+        background: $primary;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        margin: 0 auto;
+      }
+      .vertical-line {
+        width: 2px;
+        background: $white-c;
+        height: 100%;
+        margin: 6px auto 0;
+      }
+    } //address
+    .order-info {
+      padding: 5px 16px;
+      background-color: $lighter-blue;
+      .icon {
+        color: $primary;
+        margin-left: 2px;
+        font-size: 18px;
+      }
+      p {
+        color: $black-b;
+      }
+      h6 {
+        color: $black-b;
+        margin: 0 0 7px;
+        &:last-child {
+          margin: 0px 2px 10px;
+        }
+      }
+      .order-list {
+        color: $black-c;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid $white;
+        font-size: 15px;
+        a {
+          color: $primary;
+          font-weight: 500;
+        }
+        .rating {
+          margin: 0;
+          padding: 0;
+          li {
+            padding: 0;
+          }
+        }
+      }
+      .price-list {
+        color: $black-b;
+        margin-top: 10px;
+      }
+      .total {
+        color: $black-b;
+        margin-top: 8px;
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+  } //order-detail-content
+}

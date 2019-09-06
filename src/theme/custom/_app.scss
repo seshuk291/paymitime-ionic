@@ -1,0 +1,124 @@
+.profile {
+   background-image: url("../assets/imgs/menu.jpg");
+   background-position: center;
+   background-size: cover;
+   background-repeat: no-repeat;
+  .user-img {
+    // background-image: url('../../assets/imgs/bg-img.jpeg');
+    background-size: 100% 140px;
+    background-repeat: no-repeat;
+    .overlay {
+      @extend .mask-3;
+      height: 140px;
+      position: relative;
+      z-index: 99;
+      img {
+        height: 8rem;
+        width: 8rem;
+        border-radius: 10%;
+        border: 2px solid #fff;
+        padding: 1px;
+        box-shadow: 0px -1px 29px -4px rgba(0, 0, 0, 0.67);
+        position: absolute;
+        top: 72%;
+        left: 3%;
+      }
+      h6 {
+        color: $white;
+        font-size: 2rem;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        right: 5%;
+        top: 76%;
+        text-transform: capitalize;
+      }
+      ion-icon {
+        float: right;
+      }
+    }
+  }
+  .menu-list {
+    margin-top: 3em;
+    .item {
+      border-bottom: 1px solid;
+      border-color: rgba(0,0,0,0.05);
+      background-color: transparent
+    }
+    ion-icon {
+      color: $primary;
+    }
+    .label{
+       color: $white;
+    }
+  }
+}
+.profile_content {
+  .scroll-content {
+    margin-top: 0 !important;
+  }
+  .user-img .overlay {
+    z-index: 99;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+    .upload-btn {
+      position: absolute;
+      overflow: hidden;
+      bottom: 44px;
+      right: 12px;
+      input {
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: 0;
+        height: 100%;
+      }
+    }
+    h6 {
+      padding-top: 44px;
+      display: block;
+      margin: 0 auto;; 
+      position: static; 
+      right:auto; 
+      top: auto;
+    }
+    img{
+       height: 10rem;
+       width: 10rem;
+       border-radius: 50%;
+       border: 4px solid #fff;
+       top: 21%;
+       left: 3%;
+    }
+  }
+  @extend .profile;
+    background:none;
+  img {
+    margin: 16% 31% 0 !important;
+  }
+  .all-forms {
+        padding-top: 3em;
+    @extend .background;
+    .forms {
+      padding: 1rem 1rem 0 1rem;
+      .item {
+        border-radius: 5px;
+        margin: 2rem auto;
+        .text-input {
+          @include placeholder-color($black-a);
+        }
+      }
+    }
+    .landmark {
+      margin: 0 12px;
+      border-radius: 5px;
+      .item {
+        .text-input {
+          @include placeholder-color($black-a);
+        }
+      }
+    }
+  }
+  .footer-submit-btn {
+  }
+}

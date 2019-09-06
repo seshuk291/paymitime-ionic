@@ -1,0 +1,56 @@
+<ion-content class="form-content signin">
+  <form [formGroup]="signUp" (ngSubmit)="onSignUp()">
+    <div class="overlay">
+      <img src="assets/imgs/logo.png" class="logo" alt="kitchenapp-logo">
+      <div class="form-list">
+        <ion-item class="forms">
+          <ion-input type="text" placeholder="{{'Username' | translate}}" name="name" formControlName="name"></ion-input>
+          <ion-icon item-end name="person"></ion-icon>
+        </ion-item>
+        <ion-item class="forms">
+          <ion-input type="text" placeholder="{{'Email-Id' | translate}}" name="email" formControlName="email"></ion-input>
+          <ion-icon item-end name="mail"></ion-icon>
+        </ion-item>
+        <ion-item class="forms">
+          <ion-input type="number" placeholder="{{'Mobile Number' | translate}}" name="contactNumber" formControlName="contactNumber"></ion-input>
+          <ion-icon item-end name="call"></ion-icon>
+        </ion-item>
+        <ion-item class="forms">
+          <ion-input type="password" placeholder="{{'Password' | translate}}" name="password" formControlName="password"></ion-input>
+          <ion-icon item-end name="lock"></ion-icon>
+        </ion-item>
+      </div>
+      <!--forms-->
+      <div class="check-in">
+        <!--  <ion-item class="check-box">
+          <ion-label>I accept the Terms and Conditions</ion-label>
+          <ion-checkbox [(ngModel)]="remember" (ionChange)="updateRemember()"></ion-checkbox>
+        </ion-item> -->
+      </div>
+      <!--check-in-->
+      <ion-row class="buttons">
+        <ion-col col-6 text-left padding-top>
+          <a [navPush]="'LoginPage'">{{'Already Registered' | translate}}&nbsp;?
+            <br/>{{'LOGIN' | translate}}</a>
+        </ion-col>
+        <ion-col col-6>
+          <button ion-button class="login-btn" full type="submit" [disabled]="!signUp.valid">{{'Signup' | translate}}</button>
+        </ion-col>
+      </ion-row>
+      <!-- <div class="login-options" text-center>
+        <p class="login" margin-right>{{'Or Signin with' | translate}}</p>
+        <img src="assets/imgs/fb.png" alt="facebook icon">
+        <img src="assets/imgs/tw.png" alt="twitter icon">
+        <img src="assets/imgs/gp.png" alt="google-plus icon">
+      </div> -->
+      <!--login-options-->
+      <div text-center class="footer-line">
+        <p>{{'Explore the Varities' | translate}}&nbsp;&nbsp;
+          <img src="assets/imgs/run.png">
+        </p>
+      </div>
+      <!--footer-line-->
+    </div>
+    <!--overlay-->
+  </form>
+</ion-content>

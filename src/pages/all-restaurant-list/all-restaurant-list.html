@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-navbar class="header-bar">
+    <ion-title> {{pageHeaderTitle}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="all-products_content ">
+  <ion-list class="animated fadeInDown">
+    <ion-item *ngFor="let item of restaurantList" (click)="onGoToRestaurant_detailsPage(item._id)">
+      <ion-thumbnail item-start *ngIf="item.restaurantID.logo != null">
+        <img src={{item.restaurantID.logo}} alt={{item.restaurantID.restaurantName}}>
+      </ion-thumbnail>
+      <ion-thumbnail item-start *ngIf="item.restaurantID.logo == null">
+        <img src="assets/imgs/default-restaurant.jpg">
+      </ion-thumbnail>
+      <ion-row>
+        <ion-col>
+          <h2>{{item.restaurantID.restaurantName}}</h2>
+          <h5>{{item.locationName}}</h5>
+          <!-- <h5>{{item.category}}</h5>  -->
+          <ion-row>
+            <ion-col col-4 class="no-padding-left">
+              <h6 *ngIf="item.deliveryInfo">Min: $ {{item.deliveryInfo.deliveryInfo.amountEligibility}}</h6>
+              <h6 *ngIf="!item.deliveryInfo">Free Delivery</h6>
+            </ion-col>
+            <ion-col col-8>
+              <h4 *ngIf="item.deliveryInfo">{{item.deliveryInfo.deliveryInfo.deliveryTime}} Delivery</h4>
+              <h4 *ngIf="!item.deliveryInfo">Standard time</h4>
+            </ion-col>
+            <span *ngIf="item.rating !=0">
+              <ion-badge>{{item.rating | number: '.1-1'}} &nbsp;
+                <ion-icon name="star"></ion-icon>
+              </ion-badge>
+            </span>
+          </ion-row>
+        </ion-col>
+        <!-- <ion-col col-4 text-right>
+          <ion-icon name="star" *ngIf="item.rating != null ">&nbsp;{{item.rating | number: '.1-1'}}</ion-icon>
+          <p *ngIf="item.reviews != null ">{{item.reviews}}</p>
+        </ion-col> -->
+      </ion-row>
+    </ion-item>
+  </ion-list>
+  <div class="cart-empty animated bounceInDown" *ngIf="!(restaurantList.length > 0)">
+    <ion-icon name="information-circle"></ion-icon>
+    <h1>No Restaurants found!</h1>
+  </div>
+</ion-content>

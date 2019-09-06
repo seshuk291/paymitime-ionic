@@ -1,0 +1,126 @@
+//header style
+.header-bar {
+  .menu-button {
+    color: $white;
+  }
+  .chat-btn {
+    font-size: 2.3rem;
+  }
+  .cancel {
+    font-size: 1.4rem;
+  }
+  .searchbar .searchbar-input {
+    background-color: transparent !important;
+    border-bottom: 1px soild $white-c !important;
+    color: $white-c !important;
+  }
+  .search-button {
+    color: $white;
+  }
+  .toolbar-background {
+    background: $primary;
+  }
+  .toolbar-title {
+    color: $white-a;
+    text-transform: capitalize;
+  }
+  .back-button,
+  .bar-button-clear-ios,
+  .bar-button-clear-md {
+    color: $white-a !important;
+    background-color: transparent !important;
+  }
+  &.transparent {
+    .toolbar-background {
+      background: rgba(0, 0, 0, 0.3) !important;
+    }
+  }
+}
+//transparent-header//
+.transparent-header {
+  .toolbar-background {
+    background: transparent;
+  }
+}
+p {
+  letter-spacing: normal;
+}
+.submit-buttons {
+  font-size: 1.8rem;
+  color: $white-b;
+  padding: 21px;
+}
+a {
+  color: $white-b;
+  text-decoration: none;
+}
+.btm-line {
+  border-bottom: 3px solid #f7f7f7;
+  margin-left: 35%;
+  width: 31%;
+}
+.info {
+  position: absolute;
+  // font-family: trajan-color,serif;
+  font-style: normal;
+  color: $dark-yellow;
+  .title {
+    font-size: 3.8rem;
+  }
+  .describe {
+    font-size: 1.3rem;
+    font-style: normal;
+    padding: 20px 34px 0;
+  }
+  .tagline {
+    @extend .describe;
+    padding: 0 !important;
+    span {
+      color: $dark-yellow;
+      font-size: 1.4rem;
+    }
+  }
+}
+.toggle-icon {
+  margin: 1rem 4rem;
+  position: absolute;
+  font-size: 2rem;
+  color: red;
+  background: transparent;
+}
+.back-button {
+  color: $white;
+}
+p {
+  font-style: normal;
+  color: $black-a;
+}
+.no-padding {
+  padding: 0;
+}
+.no-padding-left {
+  padding-left: 0;
+}
+
+.cart-empty {
+  text-align: center;
+  color: $black-c;
+  margin-top: 40%;
+  padding: 0 2rem;
+  .icon {
+    font-size: 6rem;
+  }
+}
+
+// footer button customize
+ ion-footer{
+    .button{
+      margin: 0;
+      height: 4.6rem;
+    }
+
+  //Remove default footer border
+}
+.footer::before, .tabs[tabsPlacement="bottom"] > .tabbar::before {
+    background-image: none;
+}

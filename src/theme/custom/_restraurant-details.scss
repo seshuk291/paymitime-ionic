@@ -1,0 +1,192 @@
+.restrnt-details_content {
+  .scroll-content {
+    margin-top: 0 !important;
+  }
+  .profile-pic {
+    @extend.bg;
+    position:relative;
+    height: 240px;
+    .bg-img {
+      width: 100%;
+     height: 240px;
+    }
+    .overlay {
+      @extend .mask;
+      height: auto;
+      bottom:0;
+      z-index: 99;
+      .bottom-line {
+        margin-top: 5.8em;
+        width: 100%;
+        height: 120px;
+        border-bottom: 1px solid $lighter;
+        padding-bottom: 4px;
+        .name {
+          font-size: 2.2rem;
+          margin-top: 8px;
+          @extend h2;
+          color: $white-a;
+        }
+        .address {
+          margin: 5px 0 0;
+          font-size: 1.2rem;
+          font-style: normal;
+          color: $white;
+          padding:0 5px;
+          span{
+             color:$light-green;
+             font-weight:500;
+          }
+        }
+        .info-icon {
+          background: transparent;
+          font-size: 2rem;
+        }
+      }
+      .info-line{
+        z-index: 1;
+        .border{
+
+          border-right: 1px solid #827878;
+
+        }
+        .badge{
+          margin: 4px;
+          background: $primary;
+          height: 2rem;
+        }
+        h6 {
+            font-size: 1.2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin: 3px 0 0;
+            color:$white;
+          }
+        ion-row {
+            position: relative;
+            width: 100%; // we are overriding this field
+            margin: 0;
+            min-height: 1px;
+            flex-basis: 0;
+            flex-grow: 1;
+            max-width: 100%;
+            color:$white;
+          }
+      }
+      .details {
+        p {
+          font-size: 1.2rem;
+          font-style: normal;
+          color: $white-b !important;
+        }
+        .border-right {
+          margin: 0 3rem;
+          border-right: 1px solid $white-trans;
+        }
+        .address {
+          margin-bottom: 0;
+        }
+        .opening-time {
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+  .offers {
+    font-size: 1.2rem;
+    padding: 10px;
+    border-top: 5px solid $white-b;
+    border-bottom: 5px solid $white-c;
+    color: $grey;
+    span {
+      color: $primary;
+      padding-right: 2px;
+      font-weight:400;
+
+    }
+  }
+  .menu {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 400;
+    padding: 8px;
+    color: $black-a;
+    background: $white-b;
+  }
+
+  .toggle {
+    font-size: 1.2rem;
+    color: $grey;
+    .toggle-icon {
+      margin: 0 !important;
+    }
+  }
+  .product-list {
+    border-top: 5px solid $white-b;
+     h5{
+       padding: 0 5px;
+       color: $black-a;
+       margin: 5px 0;
+       text-transform: capitalize;
+     }
+     .sub-line {
+       border-bottom: 1px solid;
+       border-color: rgba(130,59,9,0.2);
+       width: 15%;
+       display: block;
+       margin: 0 auto 15px;
+  }
+    .product-detail {
+      border-bottom: 1px solid $white-b;
+      padding: .2rem 0;
+      img {
+        width: 100%;
+        height: 55px;
+      }
+      h5,h6 {
+        color: $black-a;
+        font-size: 1.4rem;
+        font-weight: 500;
+        margin-top: 0;
+        text-transform: capitalize;
+        margin-bottom: 5px !important;
+      }
+      p {
+        font-size: 1.1rem;
+        color: $black;
+        font-weight: 400;
+        font-style: normal;
+        margin: .2rem 0;
+        white-space: nowrap;
+        overflow: hidden;
+        letter-spacing: normal;
+        text-overflow: ellipsis;
+        text-transform: capitalize;
+      }
+      span {
+        font-weight: 500;
+
+      }
+    }
+  }
+  .footer-btn{
+     position: fixed;
+     bottom: -4px;
+     height: 4.4rem;
+     width: 100%;
+     .badge{
+       background-color: $white;
+       color: $primary;
+       font-size: 9px;
+       font-weight: 700;
+       position: absolute;
+       top: 5px;
+       padding: 3px 5px;
+       border-radius: 50%;
+       height: 18px;
+       width: 18px;
+       line-height: 12px;
+     }
+  }
+
+}

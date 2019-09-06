@@ -1,0 +1,114 @@
+// http://ionicframework.com/docs/v2/theming/
+$font-path: "../assets/fonts";
+
+@import "ionic.globals";
+
+// App Theme Default
+@import "ionic.theme.default";
+
+// Ionicons
+@import "ionic.ionicons";
+
+// Fonts
+// @import "roboto";
+
+// @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+@import url('https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap');
+* {
+  font-family: 'roboto';
+}
+
+// badges
+$badge-font-size: 1rem;
+$badge-font-weight: 500;
+
+// Color variables
+// --------------------------------------------------
+
+//change ionic primary color
+$colors: (primary: #cb202d);
+//COLOR THEME
+$primary-dark: #cb202d;
+$primary: #cb202d;
+$side-menu-bg: #3a3f51;
+$danger: #f53d3d;
+$light: #f5fafa;
+$dark: #222;
+$gold: #d58e3a;
+$light-blue: rgba(190, 227, 224, 0.68);
+$lighter-blue: #f5fafa;
+$light-green: #7cfc00;
+$orange: #ff6600;
+$lighter: #827878;
+
+//White color
+$white: #ffffff;
+$white-a: darken($white, 3%);
+$white-b: darken($white, 6%);
+$white-c: darken($white, 12%);
+$white-d: darken($white, 24%);
+
+//Black color
+$black: rgba(#000000, 0.9);
+$black-a: lighten($black, 10%);
+$black-b: lighten($black, 20%);
+$black-c: lighten($black, 40%);
+$black-d: lighten($black, 60%);
+
+$grey: #7e7a7a;
+$light-grey: #b2abab;
+$black-trans: #030303;
+$white-trans: #3e3b3b;
+$lighter-grey: #d3d3d3;
+$lighter-green: rgba(81, 140, 99, 0.68);
+$dark-yellow: #ffae00;
+$light-yellow: #ad7a0a;
+$blood-red: #bd1313;
+
+// social button colors
+$twitter: #55acee;
+$facebook: #3b5998;
+$google-plus: #db4437;
+$linkedin: #007bb6;
+
+// Mixin
+$text-input-placeholder-color: $white-a;
+// --------------------------------------------------
+@mixin placeholder-color($white-a) {
+  &::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: $white-a;
+  }
+  &::-moz-placeholder {
+    /* Firefox 19+ */
+    color: $white-a;
+  }
+  &:-ms-input-placeholder {
+    /* IE 10+ */
+    color: $white-a;
+  }
+  &:-moz-placeholder {
+    /* Firefox 18- */
+    color: $white-a;
+  }
+}
+
+@mixin scrollBar {
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 2px -19px 93px -8px $primary;
+  }
+}
+@mixin scrollBarThin {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    box-shadow: inset 2px -19px 93px -8px $primary;
+  }
+}

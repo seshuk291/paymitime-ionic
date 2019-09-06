@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-navbar class="header-bar">
+    <ion-title>Add Card</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="add-card_content">
+  <div class="all-forms">
+    <div class="forms" text-center>
+      <ion-card>
+        <ion-row>
+          <ion-col col-10>
+            <ion-item>
+              <ion-input type="text" placeholder="Card Number"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col col-2 padding text-right>
+            <ion-icon ios="ios-information-circle-outline" md="md-information-circle"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <ion-row>
+        <ion-col col-6>
+          <ion-card>
+            <ion-row>
+              <ion-col col-8>
+                <ion-item>
+                  <ion-input type="text" placeholder="MM/YY"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-4 padding text-right>
+                <ion-icon ios="ios-information-circle-outline" md="md-information-circle"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6>
+          <ion-card>
+            <ion-row>
+              <ion-col col-8>
+                <ion-item>
+                  <ion-input type="text" placeholder="CVV"></ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col col-4 padding text-right>
+                <ion-icon ios="ios-information-circle-outline" md="md-information-circle"></ion-icon>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-card>
+        <ion-row>
+          <ion-col col-10>
+            <ion-item>
+              <ion-input type="text" placeholder="Name of Card"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col col-2 padding text-right>
+            <ion-icon ios="ios-information-circle-outline" md="md-information-circle"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <button ion-button full item-start (click)="deliveryAddress()">Save</button>
+</ion-footer>

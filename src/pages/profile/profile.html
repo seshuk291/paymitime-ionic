@@ -1,0 +1,61 @@
+<ion-header no-border>
+  <ion-navbar transparent class="header-bar">
+  </ion-navbar>
+</ion-header>
+<ion-content class="profile_content">
+  <div class="user-img" style="background-image: url(assets/imgs/bg-img.jpeg);">
+    <div class="overlay">
+        <h6 text-center text-center>{{profile?.name}}</h6>
+      <img src="{{url}}">
+      <button ion-button outline small class="upload-btn">
+        <ion-icon name="create"></ion-icon>
+        <input type="file" name="file" id="file" ng2FileSelect [uploader]="uploader" class="inputfile" aria-describedby="fileHelp"
+          accept="image/*" (change)="readUrl($event)">
+      </button>
+
+    </div>
+    <!--overlay-->
+  </div>
+  <!--user-img-->
+  <form (ngSubmit)="onSubmitProfile()" #f="ngForm">
+    <div class="all-forms">
+      <div class="forms" text-center>
+        <ion-item>
+          <ion-input type="text" placeholder="{{'User Name' | translate}}" name="name" [(ngModel)]="profile.name" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="number" placeholder="{{'Phone Number' | translate}}" name="contactNumber" [(ngModel)]="profile.contactNumber"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="text" placeholder="{{'Location Name' | translate}}" name="locationName" [(ngModel)]="profile.locationName"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="text" placeholder="{{'City' | translate}}" name="city" [(ngModel)]="profile.city"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="text" placeholder="{{'State' | translate}}" name="state" [(ngModel)]="profile.state"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="text" placeholder="{{'Country' | translate}}" name="country" [(ngModel)]="profile.country"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input type="number" placeholder="{{'Zip' | translate}}" name="zip" [(ngModel)]="profile.zip"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-textarea placeholder="{{'Address' | translate}}" name="address" [(ngModel)]="profile.address">
+          </ion-textarea>
+        </ion-item>
+
+        <button ion-button full type="submit" class="footer-submit-btn" [disabled]="!f.valid"> {{'Save' | translate}}</button>
+
+      </div>
+    </div>
+  </form>
+</ion-content>

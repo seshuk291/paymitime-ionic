@@ -1,0 +1,47 @@
+.chat-content{
+   .scroll-content{
+     margin-bottom:70px;
+   }
+  background: $white-b;
+  .chat-box{
+    padding-top: 1.4rem;
+      img{
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+      }
+      .text-box{
+        background: $white;
+        color: $black-a;
+        padding: 14px 12px 12px;
+        border-radius: 6px;
+        position: relative;
+        span{
+          position: absolute;
+          top: 4px;
+          right: 8px;
+          font-size: 10px;
+          font-weight: 500;
+          color: $black-c;
+        }
+      }
+  }//chat-box
+}
+
+ion-footer {
+  left: 0;
+  bottom: 0;
+  position: fixed;
+  z-index: 10;
+  display: block;
+  width: 100%;
+  background-color: #fff;
+  .col{
+    position:relative;
+    bottom:0;
+    left:0;
+  }
+  ::placeholder {
+    color: $black-c;
+  }
+}

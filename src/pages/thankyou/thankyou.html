@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar class="header-bar">
+    <ion-title text-center>{{'Thank you' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="thankyou-content">
+  <img class="bg-img" src="assets/imgs/thankyou-bg.jpg">
+  <div class="mask-4"></div>
+  <div class="content-wrapper">
+    <h1>{{'Thank you' | translate}}</h1>
+    <h3>{{'Your Order has been placed' | translate}}</h3>
+    <h6>{{'We love our customer and try our best for better services, If there are any queries or any concern then please let
+      us know' | translate}}
+    </h6>
+
+    <button ion-button outline (click)="onClickGoToHomePage()">{{'Go to home page' | translate}}</button>
+  </div>
+</ion-content>

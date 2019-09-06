@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar class="header-bar">
+    <ion-title>{{'Orders' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="orders-content">
+  <ion-segment [(ngModel)]="orders">
+    <ion-segment-button value="history">
+      {{'History' | translate}}
+    </ion-segment-button>
+    <ion-segment-button value="upcoming">
+      {{'Upcoming' | translate}}
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="orders">
+    <section *ngSwitchCase="'history'" class="animated bounceInDown">
+      <ion-card *ngFor="let delivered of deliveredList">
+        <ion-row class="product-info">
+          <ion-col col-4>
+            <img src="{{delivered.productDetails[0].imageUrl}}">
+          </ion-col>
+          <ion-col col-8>
+            <h2>{{delivered.restaurantName}}</h2>
+            <h6>{{'Order Id' | translate}}: <span>{{delivered.orderID}}</span> </h6>
+            <h6>{{'Order Status' | translate}}: <span>{{delivered.status}}</span></h6>
+            <h6>{{'Order Date' | translate}}: <span>{{delivered.createdAt| date:'dd/MM/yyyy'}}</span></h6>
+            <h5>
+              <a (click)="onViewDeliveredOrder(delivered)">{{'View' | translate}}</a>
+            </h5>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <!--// card-product -->
+
+      <div *ngIf="deliveredList.length == 0">
+        <h5 class="no-order-heading" text-center>
+          <ion-icon name="bookmarks"></ion-icon>
+          {{'No orders Yet' | translate}}
+        </h5>
+      </div>
+
+    </section>
+
+    <section *ngSwitchCase="'upcoming'" class="animated bounceInUp">
+      <!-- card-product -->
+      <ion-card *ngFor="let pending of pendingList">
+        <ion-row class="product-info">
+          <ion-col col-4>
+            <img src="{{pending.productDetails[0].imageUrl}}">
+          </ion-col>
+          <ion-col col-8>
+            <h2>{{pending.restaurantName}}</h2>
+            <h6>{{'Order Id' | translate}}:{{pending.orderID}}</h6>
+            <h6>{{'Order Status' | translate}}:{{pending.createdAt| date:'dd/MM/yyyy'}}</h6>
+            <h5>
+              <a (click)="tarckOrder(pending)">{{'Track' | translate}}</a>
+            </h5>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+      <!--// card-product -->
+      <div *ngIf="pendingList.length == 0">
+        <h5 class="no-order-heading" text-center>
+          <ion-icon name="bookmarks"></ion-icon>
+          {{'No orders Yet' | translate}}
+        </h5>
+      </div>
+    </section>
+  </div>
+
+</ion-content>

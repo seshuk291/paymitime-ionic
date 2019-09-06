@@ -1,0 +1,61 @@
+<ion-menu [content]="content">
+  <ion-content class="profile">
+    <div class="user-img" style="background-image: url(assets/imgs/bg-img.jpeg);">
+      <div class="overlay">
+        <img src="{{imageUrl}}">
+        <h6 text-center padding-left>{{username }}
+          <!-- <ion-icon padding-right ios="ios-person-add-outline" md="md-person-add" *ngIf="isAuthenticated()" (click)="profile()"></ion-icon> -->
+        </h6>
+      </div>
+      <!--overlay-->
+    </div>
+    <!--user-img-->
+    <div class="menu-list" padding>
+      <button menuClose class="menu-item" ion-item (click)="home()">
+        <ion-icon name="home" item-left></ion-icon>{{"Home" | translate}}
+      </button>
+      <button menuClose class="menu-item" ion-item (click)="cart()">
+        <ion-icon name="cart" item-left></ion-icon>{{"Cart" | translate}}
+      </button>
+      <!-- <button menuClose  class="menu-item" ion-item *ngIf="isAuthenticated()"(click)="chat()">
+            <ion-icon name="chatboxes" item-left></ion-icon>Chat
+          </button> -->
+      <button menuClose class="menu-item" ion-item *ngIf="isAuthenticated()" (click)="orderHistory()">
+        <ion-icon name="list" item-left></ion-icon>{{"History" | translate}}
+      </button>
+      <button menuClose class="menu-item" ion-item *ngIf="isAuthenticated()" (click)="favourites()">
+        <ion-icon name="heart" item-left></ion-icon>{{"Favourites" | translate}}
+      </button>
+      <!-- <button menuClose  class="menu-item" ion-item *ngIf="isAuthenticated()" (click)="orderDetails()">
+            <ion-icon name="text" item-left></ion-icon>Order Details
+          </button> -->
+      <button menuClose class="menu-item" ion-item *ngIf="isAuthenticated()" (click)="chatList()">
+        <ion-icon name="chatboxes" item-left></ion-icon>{{"Chat" | translate}}
+      </button>
+      <button menuClose class="menu-item" ion-item *ngIf="isAuthenticated()" (click)="profile()">
+        <ion-icon name="person" item-left></ion-icon>{{"Profile" | translate}}
+      </button>
+      <button menuClose class="menu-item" ion-item (click)="setting()">
+        <ion-icon name="settings" item-left></ion-icon>{{"Settings" | translate}}
+      </button>
+      <!--<button menuClose class="menu-item" ion-item (click)="introduction()">
+        <ion-icon name="information-circle" item-left></ion-icon>{{"Introduction" | translate}}
+      </button>-->
+      <button menuClose class="menu-item" ion-item *ngIf="isAuthenticated()" (click)="support()">
+        <ion-icon name="headset" item-left></ion-icon>{{"Support" | translate}}
+      </button>
+      <button menuClose class="menu-item" ion-item (click)="about()">
+        <ion-icon name="text" item-left></ion-icon>{{"About" | translate}}
+      </button>
+      <button menuClose class="menu-item" ion-item *ngIf="!isAuthenticated()" (click)="login()">
+        <ion-icon name="log-in" item-left></ion-icon>{{"Login" | translate}}
+      </button>
+      <button menuClose class="menu-item" ion-item *ngIf="isAuthenticated()" (click)="logout()">
+        <ion-icon name="log-out" item-left></ion-icon>{{"Logout" | translate}}
+      </button>
+    </div>
+    <!--menu-list-->
+  </ion-content>
+</ion-menu>
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
