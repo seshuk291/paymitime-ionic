@@ -9,3 +9,16 @@ page-restaurant-details {
     }
   }
 }
+
+#cartBadge {
+  position: absolute;
+  top: -3px;
+  left: 22px;
+}
+
+#proceedToCartBtn {
+  width: 100%;
+  padding: 5% 0%;
+  background-color: #4caf50;
+  color: #fefefe;
+}

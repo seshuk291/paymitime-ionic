@@ -7,6 +7,7 @@ import { UserService } from "../providers/user-service";
 import { ProfileService } from "../pages/profile/profile.service";
 import { Geolocation } from "@ionic-native/geolocation";
 import { OneSignal } from "@ionic-native/onesignal";
+import { CartService } from '../data-services/cart.service';
 
 @Component({
   templateUrl: "app.html",
@@ -36,11 +37,31 @@ export class MyApp {
     public socketService: SocketService,
     public profileService: ProfileService,
     private geoLocation: Geolocation,
-    public oneSignal: OneSignal
+    public oneSignal: OneSignal,
+    private cartService: CartService
   ) {
     this.getProfileInfo();
     this.getCurrentPosition();
     this.initializeApp();
+
+
+    // update the cart with locally stored cart items
+
+    const itemString = localStorage.getItem('items');
+
+    if(itemString) {
+      const items = JSON.parse(itemString);
+
+      if(items && items.length > 0) {
+
+        console.log("populating cart with local storage");
+
+        items.forEach(item => {
+            this.cartService.addItem(item);
+        });
+      }
+
+    }
 
     // OneSignal Connection Setup
     platform.ready().then(res => {

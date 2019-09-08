@@ -1,8 +1,12 @@
 <ion-header no-border>
   <ion-navbar class="header-bar transparent">
     <ion-buttons padding-right end class="header-btn">
-      <button ion-button clear color="$white-a" (click)="gotoChat()" class="chat-btn">
-        <ion-icon name="chatbubbles"></ion-icon>
+      <button ion-button clear color="$white-a"
+      (click)="goToCart()" class="chat-btn">
+        <ion-icon name="cart">
+          <ion-badge id="cartBadge" color="primary"
+          *ngIf="cartQuantity && cartQuantity > 0">{{cartQuantity}}</ion-badge>
+        </ion-icon>
       </button>
       <!-- <button ion-button clear color="$white-a" (click)="goToCart()" *ngIf="cartItemCount!=0" class="chat-btn">
         <ion-icon name="cart">
@@ -96,17 +100,33 @@
       <!-- <h5 *ngIf="item.category != undefined " text-center>{{item.categoryTitle}}</h5> -->
       <div class="sub-line"></div>
       <ion-row class="product-detail" *ngFor="let product of items"
-      (click)="OnGoToProduct_detailsPage(product)">
+      (click)="addToCart(product)">
         <ion-col col-3>
           <img
            *ngIf="product.images && product.images.length > 0"
            src="{{ apiUrl + product.images[0].url}}">
         </ion-col>
-        <ion-col col-9 padding-left>
+
+
+        <ion-col col-6 padding-left>
           <h6>{{product.name}}</h6>
           <!-- <p>{{product.description}}</p> -->
           <span>Rs. {{product.price}}</span>
         </ion-col>
+
+        <ion-col col-3 padding-left *ngIf="!product.quantity || product.quantity === 0">
+          <button ion-button small
+           color="primary">Add</button>
+          <span *ngIf="product && product.quantity">{{product.quantity}}</span>
+        </ion-col>
+
+        <ion-col col-3 padding-left *ngIf="product.quantity || product.quantity > 0">
+          <button ion-button small color="secondary" (click)="updateQuantity(product, -1)">-</button>
+          <span *ngIf="product && product.quantity">{{product.quantity}}</span>
+          <button ion-button small color="secondary" (click)="updateQuantity(product, 1)">+</button>
+        </ion-col>
+
+
       </ion-row>
     <!-- </div> -->
   </div>
@@ -138,11 +158,14 @@
 </ion-content>
 <ion-footer class="footer-btn">
   <!-- Fab button  -->
-    <ion-fab right bottom #fab>
+    <!-- <ion-fab right bottom #fab>
       <button ion-fab (click)="goToCart()">
          <ion-icon name="cart">
-           <!-- <ion-badge class="badge" *ngIf="cartItemCount!=0">{{cartItemCount}}</ion-badge> -->
          </ion-icon>
       </button>
-    </ion-fab>
+    </ion-fab> -->
+
+    <button *ngIf="cartQuantity && cartQuantity > 0"  (click)="goToCart()"
+    id="proceedToCartBtn">Proceed to cart</button>
+
 </ion-footer>

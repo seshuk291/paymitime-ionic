@@ -1,21 +1,18 @@
 <ion-header>
   <ion-navbar class="header-bar">
-    <ion-title>{{'Order Details' | translate}}</ion-title>
+    <ion-title>{{ 'Order Details' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content class="track-order_content">
   <div class="order-details-content">
-    <ion-row class="address" padding>
-      <ion-col col-1 class="d-col">
-        <div class="circle"></div>
-        <div class="vertical-line"></div>
-      </ion-col>
-      <ion-col col-7>
-        <h6 class="active">{{'Delivery Address' | translate}}</h6>
-        <p>{{'Name' | translate}}: {{orderDetail?.shippingAddress?.name}}
-          <br/>{{'Address' | translate}}: {{orderDetail?.shippingAddress?.locationName}}
-          <br/> {{orderDetail?.shippingAddress?.city}}-{{orderDetail.shippingAddress?.zip}}
-          <br/>{{'Contact No' | translate}}:{{orderDetail.shippingAddress?.contactNumber}}
+    <ion-row padding>
+      <ion-col col-7 *ngIf="orderDetail.order_status === 'pending'">
+        <h2>{{ minutesToDisplay }} : {{ secondsToDisplay }}</h2>
+
+        <hr />
+
+        <p *ngIf="discountForTime">
+          You have got {{ discountForTime }}% discount
         </p>
       </ion-col>
     </ion-row>
@@ -25,54 +22,96 @@
           <ion-icon name="basket"></ion-icon>
         </ion-col>
         <ion-col col-10>
-          <h6>{{'Thank you for order' | translate}}</h6>
-          <h6>{{'Restaurant' | translate}}:{{orderDetail?.restaurantName}},&nbsp; {{'Order Id' | translate}}: {{orderDetail?.orderID}}</h6>
+          <h6>{{ 'Thank you for order' | translate }}</h6>
+          <h6 *ngIf="orderDetail.restaurant">
+            {{ 'Restaurant' | translate }}:{{
+              orderDetail.restaurant.restaurant_name
+            }},
+            <br />
+            {{ 'Order Id' | translate }}: {{ orderDetail.order_name }}
+          </h6>
         </ion-col>
       </ion-row>
       <!-- order -list -->
-      <div class="order-list" *ngFor="let product of orderDetail.productDetails">
+      <div class="order-list" *ngFor="let product of items">
         <ion-row>
-          <ion-col col-7>
-            <span></span>{{product.title}}</ion-col>
-          <ion-col col-5 text-right>{{product.Quantity}} X {{product.totalPrice}}</ion-col>
+          <ion-col col-7> <span></span>{{ product.name }}</ion-col>
+          <ion-col col-5 text-right>
+            {{ product.quantity }} X {{ product.item_price }}
+          </ion-col>
         </ion-row>
         <ion-row *ngFor="let ratingData of ratingList">
           <ion-col col-7>
             <span *ngIf="ratingData.product == product.productId">
-              <rating name="rating" id="rating" [(ngModel)]="ratingData.rating" readOnly="true" max="5" emptyStarIconName="star-outline"
-                halfStarIconName="star-half" starIconName="star" nullable="false">
+              <rating
+                name="rating"
+                id="rating"
+                [(ngModel)]="ratingData.rating"
+                readOnly="true"
+                max="5"
+                emptyStarIconName="star-outline"
+                halfStarIconName="star-half"
+                starIconName="star"
+                nullable="false"
+              >
               </rating>
             </span>
           </ion-col>
-          <ion-col col-5 text-right *ngIf="(ratingData?.product != product.productId)|| showRating ">
+          <!-- <ion-col col-5 text-right *ngIf="(ratingData?.product != product.productId)|| showRating ">
             <a (click)="rateProduct(product.productId)">{{'Rate' | translate}}</a>
-          </ion-col>
+          </ion-col> -->
         </ion-row>
-        <ion-row>
+        <!-- <ion-row>
           <ion-col text-right *ngIf="showRating ">
             <a (click)="rateProduct(product.productId)">{{'Rate' | translate}}</a>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
       </div>
 
-      <ion-row class="price-list">
-        <ion-col col-8>{{'Subtotal' | translate}}</ion-col>
-        <ion-col col-4 text-right>$ &nbsp;{{orderDetail.subTotal}}</ion-col>
-        <ion-col col-8>{{'Tax' | translate}}</ion-col>
-        <ion-col col-4 text-right> {{orderDetail.charges}}%</ion-col>
-        <span>
+      <ion-row class="price-list" *ngIf="orderTotalCost">
+        <ion-col col-8>{{ 'Total' | translate }}</ion-col>
+        <ion-col col-4 text-right
+          >&nbsp;{{ orderTotalCost | currency: 'INR' }}</ion-col
+        >
+        <!-- <ion-col col-8>{{'Tax' | translate}}</ion-col> -->
+        <!-- <ion-col col-4 text-right> {{orderDetail.charges}}%</ion-col> -->
+      </ion-row>
+      <ion-row *ngIf="coupon">
+        <ion-col col-6>{{ 'Coupon' | translate }}</ion-col>
+        <ion-col col-6 text-right
+          >&nbsp;{{ coupon.name }}
+          <br />
+          {{ discountAmount | currency: 'INR' }}
+        </ion-col>
+      </ion-row>
 
-        </span>
+      <ion-row *ngIf="discountForTime">
+        <ion-col col-6>{{ 'Discount for time spent' | translate }}</ion-col>
+        <ion-col col-6 text-right
+          >&nbsp;{{ discountForTime }}%
+          <br />
+          {{ discountedAmountForTime | currency: 'INR' }}
+        </ion-col>
       </ion-row>
-      <ion-row *ngIf="orderDetail.deliveryCharge != null">
-        <ion-col col-8>{{'Delivery Charge' | translate}}</ion-col>
-        <ion-col col-4 text-right>$ &nbsp;{{orderDetail?.deliveryCharge}}</ion-col>
-      </ion-row>
-      <ion-row class="total">
-        <ion-col col-8>{{'Total' | translate}}</ion-col>
-        <ion-col col-4 text-right>$ &nbsp;{{orderDetail.payableAmount}}</ion-col>
+
+      <ion-row class="total" *ngIf="grandTotalCost">
+        <ion-col col-8>{{ 'Grand total' | translate }}</ion-col>
+        <ion-col col-4 text-right
+          >&nbsp;{{ grandTotalCost | currency: 'INR' }}</ion-col
+        >
       </ion-row>
     </div>
-
   </div>
 </ion-content>
+
+<ion-footer *ngIf="orderDetail && orderDetail.order_status === 'pending'" class="footer-content">
+  <div class="footer-btn">
+    <button
+      class="paybill place-order-submit-btn"
+      ion-item
+      [disabled]="grandTotal == 0"
+      (click)="payBill()">
+      {{ 'Pay Bill' | translate }}
+    </button>
+  </div>
+</ion-footer>

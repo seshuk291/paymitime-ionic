@@ -14,7 +14,8 @@ import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-// import { BackgroundMode } from '@ionic-native/background-mode';
+import { BackgroundMode } from '@ionic-native/background-mode';
+import { CartService } from '../data-services/cart.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -23,7 +24,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [MyApp],
   imports: [
-    BrowserModule,
+  BrowserModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
@@ -42,9 +43,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     SplashScreen,
     UserService,
     SocketService,
+    CartService,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     BarcodeScanner,
-    // BackgroundMode
+    BackgroundMode
   ],
   exports: [TranslateModule]
 })

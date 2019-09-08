@@ -6,6 +6,7 @@ import {
   LoadingController
 } from "ionic-angular";
 import { OrdersService } from "./orders.service";
+import { ConstantService } from '../../app/constant.service';
 
 @IonicPage()
 @Component({
@@ -17,14 +18,20 @@ export class OrdersPage {
   orders: string;
   deliveredList: any[] = [];
   pendingList: any[] = [];
+
+  ordersList:Array<any>;
+
+  apiUrl = this.constantService.testApi;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public orderService: OrdersService,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private constantService: ConstantService
   ) {
     this.orders = "history";
-    this.getAllDeliveredOrders();
+    // this.getAllDeliveredOrders();
     this.getAllPendingOrders();
   }
 
@@ -53,8 +60,11 @@ export class OrdersPage {
     loader.present();
     this.orderService.getPendingOrders().subscribe(
       (res: any) => {
+
+        this.ordersList = res;
+        console.log("ORDER LISTT", this.ordersList);
         loader.dismiss();
-        this.pendingList = res;
+
       },
       error => {
         loader.dismiss();
@@ -63,9 +73,9 @@ export class OrdersPage {
   }
 
   //Go to order detail page to view order detail
-  onViewDeliveredOrder(item) {
+  onViewDeliveredOrder(id) {
     this.navCtrl.push("OrderDetailsPage", {
-      orderDetails: item._id
+      order: id
     });
   }
 

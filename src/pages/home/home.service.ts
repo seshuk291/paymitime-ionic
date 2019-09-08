@@ -6,7 +6,7 @@ import { map } from 'rxjs-compat/operator/map';
 @Injectable()
 export class HomeService {
   headers = new HttpHeaders();
-  apiUrl = 'http://localhost:1337/'
+  apiUrl = this.constantService.testApi;
 
   constructor(
     public http: HttpClient,

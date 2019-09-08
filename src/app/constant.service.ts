@@ -5,7 +5,9 @@ export class ConstantService {
   API_ENDPOINT: String;
   Login_Auth: String;
   Socket_Url: String;
-  testApi = 'http://localhost:1337/'
+  testApi = 'https://sleepy-headland-26492.herokuapp.com/';
+
+  // testApi = 'http://localhost:1337/';
 
   constructor() {
     // this.Socket_Url = "http://192.168.1.18:9000/";

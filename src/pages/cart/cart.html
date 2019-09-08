@@ -1,93 +1,84 @@
 <ion-header>
-
   <ion-navbar class="header-bar">
-    <ion-title>{{'Your Cart' | translate}}</ion-title>
-    <ion-buttons padding-right end>
-      <button ion-button color="$white-a" clear icon-only (click)="editCart()">
-        <ion-icon name="md-create"></ion-icon>
-      </button>
-      <!-- <button ion-button clear color="$white-a" *ngIf="searchBoxVisible" (click)="btnVisible()">
+    <ion-title>{{ 'Your Cart' | translate }}</ion-title>
+    <!-- <ion-buttons padding-right end> -->
+    <!-- <button ion-button clear color="$white-a" *ngIf="searchBoxVisible" (click)="btnVisible()">
         <ion-icon name="close"></ion-icon>
       </button> -->
-    </ion-buttons>
+    <!-- </ion-buttons> -->
   </ion-navbar>
-
 </ion-header>
-
 
 <ion-content class="cart-content">
   <!-- cart-item -->
-  <ion-card class="cart-item" *ngFor="let item of cart ; let i = index ">
+  <ion-card class="cart-item" *ngFor="let item of itemsInCart; let i = index">
     <ion-row>
       <ion-col col-4>
-        <img src="{{item.imageUrl}}">
+        <img src="{{ apiUrl + item.images[0].url }}" />
       </ion-col>
       <ion-col col-8>
-        <h2>{{item.title}}</h2>
+        <h2>{{ item.name }}</h2>
         <ion-row class="detail">
           <ion-col col-3>
-            <h5 class="price">${{item.totalPrice}}</h5>
+            <h5 class="price">
+              {{ item.quantity * item.price | currency: 'INR' }}
+            </h5>
           </ion-col>
           <ion-col col-9>
-          <div class="counter">
-            <div class="count" (click)="removeQuantity(i)">-</div>
-            <div class="num">{{item.Quantity}}</div>
-            <div class="count" (click)="addQuantity(i)">+</div>
-          </div>
-        </ion-col>
+            <div class="counter">
+              <div class="count" (click)="updateQuantity(item, -1)">-</div>
+              <div class="num">{{ item.quantity }}</div>
+              <div class="count" (click)="updateQuantity(item, 1)">+</div>
+            </div>
+          </ion-col>
         </ion-row>
       </ion-col>
     </ion-row>
-    <div class="cancel-button" (click)="deleteItem(i)">
+    <div class="cancel-button" (click)="removeItem(item.id)">
       <ion-icon name="trash"></ion-icon>
     </div>
   </ion-card>
 
   <!--//cart-item -->
-  <div class="cart-info" *ngIf="cart?.length > 0">
+  <div class="cart-info" *ngIf="itemsInCart && itemsInCart.length > 0">
     <ion-row>
-      <ion-col>{{'Total' | translate}}</ion-col>
-      <ion-col text-right>$ {{subTotal}}</ion-col>
+      <ion-col>{{ 'Total' | translate }}</ion-col>
+      <ion-col text-right>{{ total | currency: 'INR' }}</ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>{{restaurantDetail?.taxInfo?.taxName ? restaurantDetail?.taxInfo?.taxName : 'Tax '}}</ion-col>
-      <ion-col text-right> {{restaurantDetail?.taxInfo?.taxRate ? restaurantDetail?.taxInfo?.taxRate : 0}} %</ion-col>
+      <!-- <ion-col>{{restaurantDetail?.taxInfo?.taxName ? restaurantDetail?.taxInfo?.taxName : 'Tax '}}</ion-col> -->
+      <!-- <ion-col text-right> {{restaurantDetail?.taxInfo?.taxRate ? restaurantDetail?.taxInfo?.taxRate : 0}} %</ion-col> -->
     </ion-row>
-    <div *ngIf="( deliveryInfo.freeDelivery == false )">
-      <ion-row *ngIf="( subTotal < deliveryInfo.amountEligibility )">
-        <ion-col>{{'Delivery charge' | translate}}</ion-col>
-        <ion-col text-right>${{deliveryInfo.deliveryCharges}}</ion-col>
+    <div *ngIf="isCouponApplied">
+      <ion-row *ngIf="isCouponApplied">
+        <ion-col col-6>{{ 'Coupon' | translate }}</ion-col>
+        <ion-col col-6 text-right
+          >&nbsp;{{ coupon.name }}
+          <br />
+          {{ coupon_discount_amount | currency: 'INR' }}
+        </ion-col>
       </ion-row>
     </div>
-    <div *ngIf="displayDiscount">
-      <ion-row>
-        <ion-col>{{'PMT Discount' | translate}}</ion-col>
-        <ion-col text-right>$X</ion-col>
-      </ion-row>
-    </div>
     <ion-row>
-      <ion-col>{{'Grand total' | translate}}</ion-col>
-      <ion-col text-right><span> ${{GrandTotal|number:'.2-2'}}</span></ion-col>
+      <ion-col>{{ 'Grand total' | translate }}</ion-col>
+      <ion-col text-right
+        ><span> {{ grandTotal | currency: 'INR' }}</span></ion-col
+      >
     </ion-row>
-    <a (click)="onPromoCodeApply()"> {{'Have Promocode' | translate}}?</a>
+    <a (click)="addCouponPrompt()"> {{ 'Have Promocode' | translate }}?</a>
   </div>
-  <div *ngIf="isCouponApplied && cart.length > 0 "> {{'Coupon Is Applied' | translate}}:{{promoCode.couponName}}</div>
-  <div *ngIf="loyalty.loyaltyProgram">
-    <ion-item *ngIf="loyaltyTest">
-      <ion-label>{{'Apply Loyalty Points' | translate}}</ion-label>
-      <ion-checkbox color="dark" checked="loyaltyData.isApplied" (ionChange)="onApplyLoyaltyPoints()"></ion-checkbox>
-    </ion-item>
-  </div>
-
 
   <!-- if cart is empty -->
-  <div class="cart-empty animated bounceInDown" *ngIf="!(cart?.length > 0)">
+  <div
+    class="cart-empty animated bounceInDown"
+    *ngIf="itemsInCart && itemsInCart.length == 0"
+  >
     <ion-icon name="basket"></ion-icon>
-    <h1>{{'Sorry, Your cart is empty' | translate}}</h1>
-    <h4>{{'Please add some items' | translate}}</h4>
+    <h1>{{ 'Sorry, Your cart is empty' | translate }}</h1>
+    <h4>{{ 'Please add some items' | translate }}</h4>
   </div>
 
-  <div class='pmt-discount' *ngIf="timerStarted">
+  <!-- <div class='pmt-discount' *ngIf="timerStarted">
     <p class="timer" *ngIf="!displayDiscount">
       {{hoursDisplay ? hoursDisplay : '00'}} : {{(minutesDisplay) && (minutesDisplay <= 59) ? minutesDisplay : '00'}} : {{(secondsDisplay) && (secondsDisplay <= 59) ? secondsDisplay : '00'}} <br/>
     </p>
@@ -113,7 +104,7 @@
         </ion-row>
       </li>
     </ul>
-  </div>
+  </div> -->
 
   <!-- <div class="footer-btn" *ngIf="cart?.length > 0">
 
@@ -136,32 +127,19 @@
 </ion-content>
 
 <ion-footer class="footer-content">
-  <div class="footer-btn" *ngIf="cart?.length > 0">
-
-    <button *ngIf="!timerStarted" class="place-order-submit-btn" ion-item [disabled]=" GrandTotal == 0" (click)="placeOrder()">
-      {{'Place Order' | translate}}
+  <div class="footer-btn" *ngIf="itemsInCart && itemsInCart.length > 0">
+    <button
+      *ngIf="!timerStarted"
+      class="place-order-submit-btn"
+      ion-item
+      [disabled]="grandTotal == 0"
+      (click)="placeOrder()"
+    >
+      {{ 'Place Order' | translate }}
       <!-- <div item-right>
         {{'Pay' | translate}} &nbsp; ${{GrandTotal | number:'.2-2'}}
         <ion-icon name="arrow-forward"></ion-icon>
       </div> -->
-    </button>
-
-    <button *ngIf="timerStarted && !timerStopped" class="place-order-submit-btn" ion-item [disabled]=" GrandTotal == 0" (click)="readyToCheckout()">
-      {{'Ready to Checkout' | translate}}
-      <!-- <div item-right>
-        {{'Pay' | translate}} &nbsp; ${{GrandTotal | number:'.2-2'}}
-        <ion-icon name="arrow-forward"></ion-icon>
-      </div> -->
-    </button>
-
-    <button *ngIf="timerStopped" class="checkout-submit-btn" ion-item [disabled]=" GrandTotal == 0" (click)="confirmOrder()">
-      <div item-left>
-        {{'Checkout' | translate}}
-      </div>
-      <div item-right>
-        {{'Pay' | translate}} &nbsp; ${{GrandTotal | number:'.2-2'}}
-        <ion-icon name="arrow-forward"></ion-icon>
-      </div>
     </button>
   </div>
 </ion-footer>

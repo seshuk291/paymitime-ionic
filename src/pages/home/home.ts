@@ -4,12 +4,16 @@ import {
   NavParams,
   IonicPage,
   LoadingController,
-  AlertController
+  AlertController,
+  ToastController
 } from 'ionic-angular';
 import { HomeService } from './home.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { ConstantService } from '../../app/constant.service';
 import { map } from 'rxjs/operators/map';
+import { CartService } from '../../data-services/cart.service';
+
+// import { ToastController } from '@ionic/angular';
 
 @IonicPage()
 @Component({
@@ -35,15 +39,20 @@ export class HomePage {
     public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
     private constantService: ConstantService,
-    private barcodeScanner: BarcodeScanner
+    private barcodeScanner: BarcodeScanner,
+    private toastController: ToastController,
+    public alertController: AlertController,
+    private cartService: CartService
   ) {
     this.getRestaurantAsNewlyArrived();
     this.getRestaurantsByRating();
   }
 
   ionViewWillLoad() {
-    if (localStorage.getItem("position") != null) {
-      const prevPosition = JSON.parse(localStorage.getItem("position"));
+
+
+    if (localStorage.getItem('position') != null) {
+      const prevPosition = JSON.parse(localStorage.getItem('position'));
       const index = prevPosition.length;
       const singlePosition = prevPosition[index - 1];
 
@@ -67,20 +76,19 @@ export class HomePage {
       content: 'Please wait...'
     });
     loader.present();
-    this.homeService.getRestaurantsByPosition(lat, lng)
-    .pipe(
-      map((restaurants: Array<any>) => restaurants.splice(0, 6))
-    )
-    .subscribe(
-      (res: any) => {
-        console.log("RES", res);
-        this.restaurantListByPosition = res;
-        loader.dismiss();
-      },
-      error => {
-        loader.dismiss();
-      }
-    );
+    this.homeService
+      .getRestaurantsByPosition(lat, lng)
+      .pipe(map((restaurants: Array<any>) => restaurants.splice(0, 6)))
+      .subscribe(
+        (res: any) => {
+          console.log('RES', res);
+          this.restaurantListByPosition = res;
+          loader.dismiss();
+        },
+        error => {
+          loader.dismiss();
+        }
+      );
   }
 
   // Used for get restaurant list by Rating
@@ -113,13 +121,12 @@ export class HomePage {
   than changed by removing all cart item
   */
   onSelectRestaurant(restaurantID: any) {
-    console.log("RESTAURANT ID", restaurantID);
+    console.log('RESTAURANT ID', restaurantID);
 
     this.navCtrl.push('RestaurantDetailsPage', {
-      id: restaurantID
+      id: restaurantID,
+      mode: 'routing'
     });
-
-
 
     // console.log("Restaurant Id", restaurantID);
     // if (localStorage.getItem('cartItem') == null) {
@@ -179,18 +186,33 @@ export class HomePage {
   }
 
   goToAllRestaurantPage(pageValue) {
-
-    console.log("[VIEW ALL] Page value", pageValue);
+    console.log('[VIEW ALL] Page value', pageValue);
 
     this.navCtrl.push('AllRestaurantPage', { pageValue: pageValue });
   }
 
   scan() {
     console.log('Tried to open scanner');
+
+    // const toast =  this.toastController.create({
+    //   message: 'The timer has started.',
+    //   duration: 2000
+    // });
+    // toast.present();
+
+    // console.log('Barcode data', JSON.stringify(barcodeData));
+
     this.barcodeScanner
       .scan()
       .then(barcodeData => {
-        console.log('Barcode data', JSON.stringify(barcodeData));
+       // console.log('Barcode data', JSON.stringify(barcodeData));
+
+        if (!barcodeData.cancelled) {
+          this.navCtrl.push('RestaurantDetailsPage', {
+            id: barcodeData.text,
+            mode: 'QR_SCAN'
+          });
+        }
       })
       .catch(err => {
         console.log('Error', err);

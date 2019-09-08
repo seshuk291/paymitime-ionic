@@ -1,7 +1,6 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 // import { AlertController } from '@ionic/angular';
 // import { BackgroundMode } from '@ionic-native/background-mode';
-
 
 import {
   IonicPage,
@@ -11,220 +10,76 @@ import {
   Events,
   LoadingController,
   AlertController
-} from "ionic-angular";
-import { ProfileService } from "./../profile/profile.service";
-import { CartService } from "./cart.service";
-import { timer, Subscription } from 'rxjs';
+} from 'ionic-angular';
+import { ProfileService } from './../profile/profile.service';
 
+import { timer, Subscription } from 'rxjs';
+import { CartService } from '../../data-services/cart.service';
+import { ConstantService } from '../../app/constant.service';
+import { HttpClient } from '@angular/common/http';
+import { OrdersService } from '../orders/orders.service';
 
 @IonicPage()
 @Component({
-  selector: "page-cart",
-  templateUrl: "cart.html",
-  providers: [ProfileService, CartService]
+  selector: 'page-cart',
+  templateUrl: 'cart.html',
+  providers: [ProfileService, OrdersService]
 })
 export class CartPage {
-  public cart: any[] = [];
-  public GrandTotal: any;
-  public subTotal: any;
+  // public cart: any[] = [];
+  public grandTotal: any;
+  public total: any;
   public restaurant: any;
   public deliveryInfo: any = {};
   public restaurantDetail: any = {};
-  public promoCode: any = {};
+  // public promoCode: any = {};
   public isCouponApplied: boolean = false;
-  public loyalty: any = {};
-  public loyaltyArray: any[] = [];
-  public loyaltyPoints: number = 0;
-  public loyaltyAppliedData: boolean = false;
-  public loyaltyData: any = {
-    isApplied: false,
-    loyaltyPoints: 0
-  };
-  public loyaltyTest: boolean = false;
-  public isLogin: boolean = false;
-  public timerStopped: boolean = false;
-  private ticks: number = 0;
-  private minutesDisplay: number = 0;
-  private hoursDisplay: number = 0;
-  private secondsDisplay: number = 0;
-  public sub: Subscription;
-  public timerStarted: boolean = false;
-  public displayDiscount: boolean = false;
+
+  restaurantId;
+
+  coupon: any;
+  coupon_discount_amount: number;
+
+  itemsInCart;
+  apiUrl = this.constantService.testApi;
+
   constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
+    public  navCtrl: NavController,
+    public  navParams: NavParams,
     private profileService: ProfileService,
     private toastCtrl: ToastController,
     private cartService: CartService,
-    public events: Events,
+    public  events: Events,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    // public backgroundMode : BackgroundMode
-  ) {
-    console.log(localStorage.getItem("cartItem"));
-    this.cart = JSON.parse(localStorage.getItem("cartItem"));
-    if (
-      this.navParams.get("delivery") != null &&
-      this.navParams.get("restaurant") != null
-    ) {
-      this.deliveryInfo = this.navParams.get("delivery");
-      this.restaurantDetail = this.navParams.get("restaurant");
-    }
-    if (this.navParams.get("promoCode") != null) {
-      this.isCouponApplied = true;
-      this.promoCode = this.navParams.get("promoCode");
-      this.restaurantDetail.coupon = {
-        couponApplied: true,
-        offPrecentage: this.promoCode.offPrecentage.offPrecentage,
-        couponName: this.promoCode.couponName
-      };
-    } else {
-      this.isCouponApplied = false;
-      this.restaurantDetail.coupon = { couponApplied: false };
-    }
-    if (this.cart != null) {
-      this.restaurant = this.cart[0].restaurant;
-      this.calculateAmount();
-      if (localStorage.getItem("token") != null) {
-        this.isLogin = true;
-        this.getLoyaltyPoints(this.restaurantDetail.restaurantID);
+    private constantService: ConstantService,
+    private httpClient: HttpClient,
+    private orderService: OrdersService
+  ) // public backgroundMode : BackgroundMode
+  {
+    // console.log("CART STATE", this.cartService.cartState);
+
+    // add items from the state
+    this.cartService.items$.subscribe(items => {
+
+      if(items && items.length > 0) {
+        this.restaurantId = items[0].restaurant;
       }
-    }
-  }
 
-  //Used for get User Loyality Pints
-  getLoyaltyPoints(restId) {
-    if (restId != null) {
-      const loader = this.loadingCtrl.create({
-        content: "Please wait..."
+
+      this.itemsInCart = items;
+      this.grandTotal = 0;
+      this.total = 0;
+      this.itemsInCart.forEach(item => {
+        this.total = this.total + item.quantity * item.price;
       });
-      loader.present();
-      this.cartService.getUserLoyaltyPoints(restId).subscribe(
-        (res: any) => {
-          if (res.length > 0) {
-            this.loyalty.loyaltyProgram = res[0].loyalityProgram;
-            this.loyalty.minLoyaltyPoints = res[0].minLoyalityPoints;
-          }
-          if (this.loyalty.loyaltyProgram == true) {
-            this.profileService.getUserDetails().subscribe(
-              (res: any) => {
-                this.loyaltyArray = res.loyaltyPoints;
-                for (let i = 0; i < this.loyaltyArray.length; i++) {
-                  this.loyaltyPoints =
-                    this.loyaltyPoints + this.loyaltyArray[i].point;
-                }
-                if (this.loyalty.minLoyaltyPoints <= this.loyaltyPoints) {
-                  this.loyaltyAppliedData = true;
-                  this.loyaltyTest = true;
-                }
-                loader.dismiss();
-              },
-              error => {
-                loader.dismiss();
-              }
-            );
-          } else {
-            loader.dismiss();
-          }
-        },
-        error => {
-          loader.dismiss();
-        }
-      );
-    }
+      this.grandTotal = this.total;
+      console.log('ITEMS IN CART', this.itemsInCart);
+    });
   }
 
-  // Used for Decrease number of quantity
-  removeQuantity(i) {
-    if (this.cart[i].Quantity > 1) {
-      this.cart[i].Quantity = this.cart[i].Quantity - 1;
-      this.calculateAmount();
-    }
-  }
-
-  // Used for Increase number of quantity
-  addQuantity(i) {
-    this.cart[i].Quantity = this.cart[i].Quantity + 1;
-    this.calculateAmount();
-  }
-
-  // Used for Delete item from cart List items
-  deleteItem(i) {
-    this.cart.splice(i, 1);
-    this.calculateAmount();
-    localStorage.setItem("cartItem", JSON.stringify(this.cart));
-    if (this.cart.length == 0) {
-      this.GrandTotal = 0;
-      localStorage.removeItem("cartItem");
-    }
-  }
-
-  // Used for calculation SubTotal, GrandTotal
-  calculateAmount() {
-    let TotalPrice = 0;
-    for (let i = 0; i < this.cart.length; i++) {
-      TotalPrice = TotalPrice + this.cart[i].totalPrice * this.cart[i].Quantity;
-    }
-    this.subTotal = TotalPrice;
-    if (this.isCouponApplied) {
-      TotalPrice = TotalPrice - TotalPrice * this.promoCode.offPrecentage / 100;
-    }
-    let texRate = 0;
-    if (this.restaurantDetail.taxInfo != undefined) {
-      texRate = this.restaurantDetail.taxInfo.taxRate;
-    }
-    this.GrandTotal = TotalPrice + TotalPrice * texRate / 100;
-
-    if (
-      this.subTotal < this.deliveryInfo.amountEligibility &&
-      this.deliveryInfo.freeDelivery == false
-    ) {
-      this.GrandTotal =
-        this.GrandTotal + Number(this.deliveryInfo.deliveryCharges);
-    }
-  }
-
-  //Used For on Apply Loyality Points
-  onApplyLoyaltyPoints() {
-    if (this.loyaltyAppliedData == true) {
-      this.loyaltyAppliedData = false;
-      this.GrandTotal = this.GrandTotal - this.loyaltyPoints;
-      this.loyaltyData.isApplied = true;
-      this.loyaltyData.loyaltyPoints = this.loyaltyPoints;
-    } else if (this.loyaltyData.isApplied) {
-      this.loyaltyAppliedData = true;
-      this.loyaltyData.isApplied = false;
-      this.GrandTotal = this.GrandTotal + this.loyaltyPoints;
-    } else {
-      this.showToaster("You Cannot Apply");
-    }
-  }
-
-  //Used for Place the Order and start the time
-  placeOrder() {
-    let alert = this.alertCtrl.create({
-      title: 'Best Food',
-      message: 'Press Ok to place your order.',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel'
-        },
-        {
-          text: 'Ok',
-          handler: () => {
-            this.timerStarted = true;
-            localStorage.setItem("orderPlaced", "true");
-            var date = new Date();
-            localStorage.setItem("orderDateTime", date.toString());
-            this.startTimer();
-          }
-        }
-      ]
-    })
-    alert.present();
-    // this.timerStarted = true;
-    // this.startTimer();
+  getItemById(id) {
+    return this.httpClient.get(this.apiUrl + 'items/' + id);
   }
 
   readyToCheckout() {
@@ -238,62 +93,20 @@ export class CartPage {
         },
         {
           text: 'Sure',
-          handler: () => {
-            this.timerStopped = true;
-            this.displayDiscount = true;
-            // this.backgroundMode.disable();
-            localStorage.setItem("orderPlaced", "false");
-            localStorage.removeItem("orderDateTime");
-            this.sub.unsubscribe();
-          }
+          handler: () => {}
         }
       ]
-    })
+    });
     alert.present();
     // this.timerStopped = true;
   }
 
   // Used For Confirmation of order
-  confirmOrder() {
-    if (localStorage.getItem("token") != null) {
-      const loader = this.loadingCtrl.create({
-        content: "Please wait..."
-      });
-      loader.present();
-      this.profileService.getUserDetails().subscribe(
-        (res: any) => {
-          // console.log("token my console", res);
-          if (res != undefined) {
-            let payment = {
-              subTotal: this.subTotal,
-              GrandTotal: this.GrandTotal,
-              restaurant: this.restaurant
-            };
-            loader.dismiss();
-            this.navCtrl.push("ConfirmOrderPage", {
-              makePayemt: payment,
-              delivery: this.deliveryInfo,
-              restaurant: this.restaurantDetail,
-              loyalty: this.loyaltyData
-            });
-          } else {
-            loader.dismiss();
-            this.showToaster("You are not authorized please try re-login");
-          }
-        },
-        error => {
-          loader.dismiss();
-          this.showToaster(error.message);
-        }
-      );
-    } else {
-      this.showToaster("Please login first to proceed!");
-    }
-  }
+  confirmOrder() {}
 
   // Used for Apply PromoCode
   onPromoCodeApply() {
-    this.navCtrl.push("PromotionalCodePage", {
+    this.navCtrl.push('PromotionalCodePage', {
       delivery: this.deliveryInfo,
       restaurant: this.restaurantDetail
     });
@@ -308,49 +121,158 @@ export class CartPage {
     toast.present();
   }
 
-  showTimer() {
+  updateQuantity(item, quantity) {
+    event.stopPropagation();
+
+    // if there is no quantity property in item. assign a new property
+    if (!item.quantity) {
+      item['quantity'] = 0;
+    }
+
+    if (quantity == -1) {
+      item.quantity--;
+    } else if (quantity == 1) {
+      item.quantity++;
+    }
+
+    if (item.quantity > 0) {
+      this.cartService.updateQuantityOfItem(item.id, item.quantity);
+    } else if (item.quantity === 0) {
+      this.cartService.removeItem(item.id);
+    }
+  }
+
+  removeItem(itemId) {
+    let alert = this.alertCtrl.create({
+      title: 'Delete',
+      message: 'Are you sure you want to remove the item?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Remove',
+          handler: () => {
+            this.cartService.removeItem(itemId);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  placeOrder() {
+    let alert = this.alertCtrl.create({
+      title: 'Place order',
+      message: 'Are you sure you want to place the order',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.createOrder();
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  createOrder() {
+
+    const quantity = this.itemsInCart.map(item => {
+      return {
+        item: item.id,
+        item_price: item.price,
+        quantity: item.quantity
+      }
+    });
+
+    let order = {
+      "order_name": "ORDER12",
+      "user": "5d5c149f927a507b6e1d66cf",
+      "start_tm": new Date(),
+      "total_price": this.total,
+      "order_status": "pending",
+      "restaurant": this.restaurantId,
+      "items": this.itemsInCart.map(item => item.id),
+      "quantity": quantity
+    }
+
+    if(this.coupon) {
+      order['coupon'] = this.coupon.id;
+    }
+
+    this.orderService.createOrder(order).subscribe(data => {
+      console.log("DATA", data);
+      this.cartService.clearCart();
+      this.navCtrl.push('OrderDetailsPage', {
+        order: data['id'],
+      });
+
+    }, error => {
+        console.log("ERROR", error);
+    });
 
   }
 
-  startTimer() {
-        // this.backgroundMode.enable();
-        // this.backgroundMode.on("activate").subscribe(() => {
+  addCouponPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Add coupon',
+      inputs: [
+        {
+          name: 'coupon',
+          placeholder: 'Coupon'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Apply',
+          handler: data => {
+            console.log("DATA", data);
 
-          const time = timer(1, 1000);
-          this.sub = time.subscribe(
-            t => {
-              this.ticks = t;
+            // check if the coupon is valid or not
+            this.orderService.checkIfCouponValid(data.coupon)
+            .subscribe((coupons: Array<any>) => {
 
-              this.secondsDisplay = this.getSeconds(this.ticks);
-              this.minutesDisplay = this.getMinutes(this.ticks);
-              this.hoursDisplay = this.getHours(this.ticks);
-            }
-          );
-        // })
-    }
+              console.log("COUPONS", coupons);
 
-    private getSeconds(ticks: number) {
-        return this.pad(ticks % 60);
-    }
+              if(coupons && coupons.length > 0) {
+                  this.coupon = coupons.find(c => c.name === data.coupon);
+                  const discount = this.coupon.discount;
+                  this.coupon_discount_amount = (discount / 100) * this.total;
+                  this.grandTotal = this.total - this.coupon_discount_amount;
+                  this.isCouponApplied = true;
+                  console.log("COUPON VALID");
+                  this.showToaster("Coupon Applied");
+                } else {
+                  this.showToaster("Coupon invalid");
+                }
+            }, error => {
+              console.log("COUPON INVALID", error);
+              this.showToaster("Coupon invalid");
+            })
 
-    private getMinutes(ticks: number) {
-         return this.pad((Math.floor(ticks / 60)) % 60);
-    }
+          }
+        }
+      ]
+    });
 
-    private getHours(ticks: number) {
-        return this.pad(Math.floor((ticks / 60) / 60));
-    }
+    alert.present();
+  }
 
-    private pad(digit: any) {
-        return digit <= 9 ? '0' + digit : digit;
-    }
 
-    editCart() {
 
-      console.log(localStorage.getItem("orderPlaced"));
-      console.log(localStorage.getItem("orderDateTime"));
-      this.navCtrl.push("RestaurantDetailsPage", {
-        id: localStorage.getItem("rid")
-      });
-    }
+
 }

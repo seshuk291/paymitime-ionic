@@ -47,7 +47,7 @@ export class ProductDetailsPage {
   ) {
     console.log(JSON.stringify(this.navParams));
     this.productData = this.navParams.get("product");
-    this.extraIngredients = this.productData.extraIngredients;
+    // this.extraIngredients = this.productData.extraIngredients;
     this.restaurant = this.navParams.get("restaurantName");
     this.deliveryInfo = this.navParams.get("delivery");
     this.restaurantDetail = this.navParams.get("restaurantData");
@@ -249,50 +249,50 @@ export class ProductDetailsPage {
   }
 
   // Toggle product option favorite or not
-  toggle() {
-    if (localStorage.getItem("token") != null) {
-      this.visible = !this.visible;
-      if (this.visible == false) {
-        const loader = this.loadingCtrl.create({
-          content: "Please wait"
-        });
-        loader.present();
-        this.productDetailService
-          .addFavourite(
-            this.productData._id,
-            this.restaurantDetail.restaurantID,
-            this.restaurantDetail.location
-          )
-          .subscribe(
-            (res: any) => {
-              this.Itemfavourite = res._id;
+  // toggle() {
+  //   if (localStorage.getItem("token") != null) {
+  //     this.visible = !this.visible;
+  //     if (this.visible == false) {
+  //       const loader = this.loadingCtrl.create({
+  //         content: "Please wait"
+  //       });
+  //       loader.present();
+  //       this.productDetailService
+  //         .addFavourite(
+  //           this.productData._id,
+  //           this.restaurantDetail.restaurantID,
+  //           this.restaurantDetail.location
+  //         )
+  //         .subscribe(
+  //           (res: any) => {
+  //             this.Itemfavourite = res._id;
 
-              loader.dismiss();
-            },
-            error => {
-              this.showToaster(error.error.message);
-              this.visible = !this.visible;
-              loader.dismiss();
-            }
-          );
-      } else {
-        const loader = this.loadingCtrl.create({
-          content: "Please wait"
-        });
-        loader.present();
-        this.productDetailService.removeFavourite(this.Itemfavourite).subscribe(
-          (res: any) => {
-            loader.dismiss();
-          },
-          error => {
-            this.showToaster(error.error.message);
-            this.visible = !this.visible;
-            loader.dismiss();
-          }
-        );
-      }
-    } else {
-      this.showToaster("Please login first to add to favourite");
-    }
-  }
+  //             loader.dismiss();
+  //           },
+  //           error => {
+  //             this.showToaster(error.error.message);
+  //             this.visible = !this.visible;
+  //             loader.dismiss();
+  //           }
+  //         );
+  //     } else {
+  //       const loader = this.loadingCtrl.create({
+  //         content: "Please wait"
+  //       });
+  //       loader.present();
+  //       this.productDetailService.removeFavourite(this.Itemfavourite).subscribe(
+  //         (res: any) => {
+  //           loader.dismiss();
+  //         },
+  //         error => {
+  //           this.showToaster(error.error.message);
+  //           this.visible = !this.visible;
+  //           loader.dismiss();
+  //         }
+  //       );
+  //     }
+  //   } else {
+  //     this.showToaster("Please login first to add to favourite");
+  //   }
+  // }
 }
