@@ -18,7 +18,6 @@ export class ConstantService {
     this.Login_Auth = "https://restaurantsass.herokuapp.com/";
     this.API_ENDPOINT = "https://restaurantsass.herokuapp.com/api/";
 
-
-
   }
 }
+

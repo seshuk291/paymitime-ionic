@@ -7,7 +7,7 @@
   <div class="order-details-content">
     <ion-row padding>
       <ion-col col-7 *ngIf="orderDetail.order_status === 'pending'">
-        <h2>{{ minutesToDisplay }} : {{ secondsToDisplay }}</h2>
+        <h2>{{ minutesToDisplay }}<small>min</small> : {{ secondsToDisplay }}<small>sec</small></h2>
 
         <hr />
 

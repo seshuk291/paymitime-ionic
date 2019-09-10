@@ -199,7 +199,6 @@ export class HomePage {
     //   duration: 2000
     // });
     // toast.present();
-
     // console.log('Barcode data', JSON.stringify(barcodeData));
 
     this.barcodeScanner

@@ -29,6 +29,8 @@ export class OrderDetailsPage {
   discountedAmountForTime: number;
   discountAmount: number;
 
+  interval;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -50,18 +52,22 @@ export class OrderDetailsPage {
       (res: any) => {
         this.orderDetail = res;
 
+        // actual item object
+        const items = this.orderDetail.items;
+
         // items in order with id, price and quantity
         const quantity = this.orderDetail.quantity;
 
         console.log('Quantity', quantity);
 
-        // actual item object
-        const items = this.orderDetail.items;
-
         this.orderTotalCost = 0;
         quantity.forEach(item => {
           let foundItem = items.find(i => i.id == item.item);
-          item.name = foundItem.name;
+          if(foundItem) {
+            item.name = foundItem.name;
+          } else {
+            item.name = ''
+          }
           this.orderTotalCost =
             this.orderTotalCost + item.quantity * item.item_price;
         });
@@ -148,21 +154,29 @@ export class OrderDetailsPage {
 
     console.log('GRAND TOTAL***', this.grandTotalCost);
 
-
     if (time && this.orderDetail.order_status === 'pending') {
+
+      if(time && time.day > 0) {
+        console.log("HAS DAY", time.day);
+        time.minute = time.minute + time.day * 1440;
+      }
+
+      if(time && time.hour > 0) {
+        console.log("HOUR", time.hour);
+        time.minute = time.minute + time.hour * 60;
+      }
+
       this.minutesToDisplay = time.minute;
       this.secondsToDisplay = time.seconds;
 
       const totalSeconds = this.timeToCount * 60;
 
-      const interval = setInterval(() => {
-
+      this.interval = setInterval(() => {
         if (this.minutesToDisplay < 20 && this.minutesToDisplay > 10) {
           this.calculateDiscount(20);
         } else {
           this.calculateDiscount(10);
         }
-
 
         // console.log("========== DISCOUNT ===========");
         // console.log('DISCOUNT', this.discountForTime);
@@ -171,13 +185,12 @@ export class OrderDetailsPage {
         // console.log('GRAND TOTAL', this.grandTotalCost);
         // console.log("========== ***DISCOUNT*** ===========");
 
-
         this.counter++;
 
         this.secondsToDisplay++;
 
         if (this.percent === this.radius) {
-          clearInterval(interval);
+          clearInterval(this.interval);
         }
 
         this.percent = Math.floor((this.progress / totalSeconds) * 100);
@@ -214,25 +227,35 @@ export class OrderDetailsPage {
   }
 
   calculateDiscount(discountPercent) {
-      this.discountForTime = discountPercent;
+    this.discountForTime = discountPercent;
 
-      if(this.coupon && this.discountAmount) {
-        this.discountedAmountForTime = (this.discountForTime / 100) * this.orderTotalCost;
-        this.grandTotalCost = this.orderTotalCost - (this.discountedAmountForTime + this.discountAmount);
-      } else {
-        this.discountedAmountForTime = (this.discountForTime / 100) * this.orderTotalCost;
-        this.grandTotalCost = this.orderTotalCost - this.discountedAmountForTime;
-      }
+    if (this.coupon && this.discountAmount) {
+      this.discountedAmountForTime =
+        (this.discountForTime / 100) * this.orderTotalCost;
+      this.grandTotalCost =
+        this.orderTotalCost -
+        (this.discountedAmountForTime + this.discountAmount);
+    } else {
+      this.discountedAmountForTime =
+        (this.discountForTime / 100) * this.orderTotalCost;
+      this.grandTotalCost = this.orderTotalCost - this.discountedAmountForTime;
+    }
   }
 
   payBill() {
-    this.orderService.updateOrder(this.orderDetail.id, {order_status: 'completed'})
-    .subscribe(res => {
-      this.showToaster("Payment successful");
-      this.navCtrl.push("OrdersPage");
-    }, error => {
-      this.showToaster("Payment failed");
-    });
+    this.orderService
+      .updateOrder(this.orderDetail.id, { order_status: 'completed' })
+      .subscribe(
+        res => {
+          if(this.interval) {
+            clearInterval(this.interval);
+          }
+          this.showToaster('Payment successful');
+          this.navCtrl.push('OrdersPage');
+        },
+        error => {
+          this.showToaster('Payment failed');
+        }
+      );
   }
-
 }

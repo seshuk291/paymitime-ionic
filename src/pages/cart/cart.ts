@@ -193,7 +193,7 @@ export class CartPage {
     });
 
     let order = {
-      "order_name": "ORDER12",
+      "order_name": "ORDER" + Date.now(),
       "user": "5d5c149f927a507b6e1d66cf",
       "start_tm": new Date(),
       "total_price": this.total,
