@@ -9,6 +9,8 @@ import {
   AlertController
 } from 'ionic-angular';
 
+declare var RazorpayCheckout: any;
+
 @IonicPage()
 @Component({
   selector: 'page-order-details',
@@ -57,9 +59,6 @@ export class OrderDetailsPage {
 
         // items in order with id, price and quantity
         const quantity = this.orderDetail.quantity;
-
-        console.log('Quantity', quantity);
-
         this.orderTotalCost = 0;
         quantity.forEach(item => {
           let foundItem = items.find(i => i.id == item.item);
@@ -150,19 +149,14 @@ export class OrderDetailsPage {
     let diff = nowTime - fromTime;
     let time = this.convertMS(diff);
 
-    console.log('TIME', time);
-
-    console.log('GRAND TOTAL***', this.grandTotalCost);
 
     if (time && this.orderDetail.order_status === 'pending') {
 
       if(time && time.day > 0) {
-        console.log("HAS DAY", time.day);
         time.minute = time.minute + time.day * 1440;
       }
 
       if(time && time.hour > 0) {
-        console.log("HOUR", time.hour);
         time.minute = time.minute + time.hour * 60;
       }
 
@@ -194,7 +188,7 @@ export class OrderDetailsPage {
         }
 
         this.percent = Math.floor((this.progress / totalSeconds) * 100);
-        console.log('percent : ', this.percent);
+        // console.log('percent : ', this.percent);
         this.progress++;
 
         if (this.secondsToDisplay == 60) {
@@ -243,19 +237,60 @@ export class OrderDetailsPage {
   }
 
   payBill() {
-    this.orderService
-      .updateOrder(this.orderDetail.id, { order_status: 'completed' })
-      .subscribe(
-        res => {
-          if(this.interval) {
-            clearInterval(this.interval);
-          }
-          this.showToaster('Payment successful');
-          this.navCtrl.push('OrdersPage');
-        },
-        error => {
-          this.showToaster('Payment failed');
-        }
-      );
+    this.payWithRazor();
   }
+
+  currency: string = 'INR';
+  currencyIcon: string = '₹';
+  razor_key = 'rzp_test_3mC3Q72xHtdata';
+  cardDetails: any = {};
+
+  payWithRazor() {
+    const options = {
+      description: 'Payment for the order',
+      currency: this.currency,
+      key: this.razor_key,
+      amount: (this.grandTotalCost * 100),
+      name: 'Paymitime',
+      modal: {
+        ondismiss: function () {
+          alert('dismissed')
+        }
+      }
+    };
+
+    var self = this;
+
+    var successCallback = function (payment_id) {
+      // alert('payment_id: ' + payment_id);
+      self.onPaymentSuccess(payment_id);
+    };
+
+    var cancelCallback = function (error) {
+      alert(error.description + ' (Error ' + error.code + ')');
+    };
+
+    RazorpayCheckout.open(options, successCallback, cancelCallback);
+  }
+
+  onPaymentSuccess(paymentId) {
+
+    this.showToaster('Payment successful');
+
+    this.orderService
+    .updateOrder(this.orderDetail.id, { order_status: 'completed', payment_id:paymentId })
+    .subscribe(
+      res => {
+        if(this.interval) {
+          clearInterval(this.interval);
+        }
+
+        this.navCtrl.push('OrdersPage');
+      },
+      error => {
+        this.showToaster('Payment failed');
+      }
+    );
+  }
+
 }

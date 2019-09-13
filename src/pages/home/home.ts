@@ -50,6 +50,9 @@ export class HomePage {
 
   ionViewWillLoad() {
 
+    if(!localStorage.getItem('jwtToken')) {
+      this.navCtrl.push('LoginPage');
+    }
 
     if (localStorage.getItem('position') != null) {
       const prevPosition = JSON.parse(localStorage.getItem('position'));

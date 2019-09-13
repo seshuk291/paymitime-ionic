@@ -43,15 +43,15 @@ export class SignupPage implements OnInit {
     });
     loader.present();
     let user: any = {
-      name: this.signUp.value.name,
+      username: this.signUp.value.name,
       email: this.signUp.value.email,
-      role: "User",
-      contactNumber: parseInt(this.signUp.value.contactNumber),
+      role: "customer",
+      mobile: parseInt(this.signUp.value.contactNumber),
       password: this.signUp.value.password
     };
     this.registerService.registerData(user).subscribe(
       (res: any) => {
-        this.showToaster("Registaration successful!");
+        this.showToaster("Registration successful!");
         loader.dismiss();
         this.navCtrl.setRoot("LoginPage");
       },

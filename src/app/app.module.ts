@@ -1,21 +1,25 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { ErrorHandler, NgModule } from "@angular/core";
-import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
-import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { BrowserModule } from '@angular/platform-browser';
+import { ErrorHandler, NgModule } from '@angular/core';
+import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { MyApp } from "./app.component";
+import { MyApp } from './app.component';
 
-import { StatusBar } from "@ionic-native/status-bar";
-import { SplashScreen } from "@ionic-native/splash-screen";
-import { ConstantService } from "./constant.service";
-import { UserService } from "../providers/user-service";
-import { SocketService } from "../providers/socket-service";
-import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
-import { TranslateHttpLoader } from "@ngx-translate/http-loader";
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { ConstantService } from './constant.service';
+import { UserService } from '../providers/user-service';
+import { SocketService } from '../providers/socket-service';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { BackgroundMode } from '@ionic-native/background-mode';
 import { CartService } from '../data-services/cart.service';
+
+import { OneSignal } from '@ionic-native/onesignal';
+import { AuthInterceptor } from '../data-services/interceptor';
+import { LoginService } from '../pages/login/login.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -24,7 +28,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [MyApp],
   imports: [
-  BrowserModule,
+    BrowserModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
@@ -44,9 +48,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserService,
     SocketService,
     CartService,
+    LoginService,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },,
     BarcodeScanner,
-    BackgroundMode
+    BackgroundMode,
+    OneSignal
   ],
   exports: [TranslateModule]
 })

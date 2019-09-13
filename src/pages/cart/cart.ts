@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-// import { AlertController } from '@ionic/angular';
-// import { BackgroundMode } from '@ionic-native/background-mode';
 
 import {
   IonicPage,
@@ -13,7 +11,6 @@ import {
 } from 'ionic-angular';
 import { ProfileService } from './../profile/profile.service';
 
-import { timer, Subscription } from 'rxjs';
 import { CartService } from '../../data-services/cart.service';
 import { ConstantService } from '../../app/constant.service';
 import { HttpClient } from '@angular/common/http';
@@ -34,14 +31,12 @@ export class CartPage {
   public restaurantDetail: any = {};
   // public promoCode: any = {};
   public isCouponApplied: boolean = false;
-
   restaurantId;
-
   coupon: any;
   coupon_discount_amount: number;
-
   itemsInCart;
   apiUrl = this.constantService.testApi;
+  user;
 
   constructor(
     public  navCtrl: NavController,
@@ -59,13 +54,18 @@ export class CartPage {
   {
     // console.log("CART STATE", this.cartService.cartState);
 
+    this.profileService.getUserDetails().subscribe(user => {
+      console.log("User", user);
+      this.user = user;
+    });
+
+
     // add items from the state
     this.cartService.items$.subscribe(items => {
 
       if(items && items.length > 0) {
         this.restaurantId = items[0].restaurant;
       }
-
 
       this.itemsInCart = items;
       this.grandTotal = 0;
@@ -184,39 +184,46 @@ export class CartPage {
 
   createOrder() {
 
-    const quantity = this.itemsInCart.map(item => {
-      return {
-        item: item.id,
-        item_price: item.price,
-        quantity: item.quantity
-      }
-    });
 
-    let order = {
-      "order_name": "ORDER" + Date.now(),
-      "user": "5d5c149f927a507b6e1d66cf",
-      "start_tm": new Date(),
-      "total_price": this.total,
-      "order_status": "pending",
-      "restaurant": this.restaurantId,
-      "items": this.itemsInCart.map(item => item.id),
-      "quantity": quantity
-    }
-
-    if(this.coupon) {
-      order['coupon'] = this.coupon.id;
-    }
-
-    this.orderService.createOrder(order).subscribe(data => {
-      console.log("DATA", data);
-      this.cartService.clearCart();
-      this.navCtrl.push('OrderDetailsPage', {
-        order: data['id'],
+    if(this.user) {
+      const quantity = this.itemsInCart.map(item => {
+        return {
+          item: item.id,
+          item_price: item.price,
+          quantity: item.quantity
+        }
       });
 
-    }, error => {
-        console.log("ERROR", error);
-    });
+      let order = {
+        "order_name": "ORDER" + Date.now(),
+        "user": this.user.id,
+        "start_tm": new Date(),
+        "total_price": this.total,
+        "order_status": "pending",
+        "restaurant": this.restaurantId,
+        "items": this.itemsInCart.map(item => item.id),
+        "quantity": quantity
+      }
+
+      if(this.coupon) {
+        order['coupon'] = this.coupon.id;
+      }
+
+      this.orderService.createOrder(order).subscribe(data => {
+        // console.log("DATA", data);
+        this.cartService.clearCart();
+        this.navCtrl.push('OrderDetailsPage', {
+          order: data['id'],
+        });
+
+      }, error => {
+          console.log("ERROR", error);
+      });
+    } else {
+      this.showToaster("Unable to retrieve the user info");
+    }
+
+
 
   }
 

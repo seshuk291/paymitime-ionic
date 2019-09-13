@@ -20,7 +20,6 @@ import { TwitterConnect } from "@ionic-native/twitter-connect";
   selector: "page-login",
   templateUrl: "login.html",
   providers: [
-    LoginService,
     ProfileService,
     Facebook,
     GooglePlus,
@@ -46,8 +45,8 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.login = new FormGroup({
-      email: new FormControl("ionicfirebaseapp@gmail.com", Validators.required),
-      password: new FormControl("123456", Validators.required)
+      email: new FormControl("johndoe@gmail.com", Validators.required),
+      password: new FormControl("johndoe", Validators.required)
     });
   }
 
@@ -58,18 +57,32 @@ export class LoginPage implements OnInit {
     });
     loader.present();
     let user = {
-      email: this.login.value.email,
+      identifier: this.login.value.email,
       password: this.login.value.password
     };
     this.loginService.onLoginData(user).subscribe(
       (res: any) => {
-        localStorage.setItem("token", "bearer " + res.token);
-        this.showToaster("Login successfully");
+        localStorage.setItem("jwtToken", res.jwt);
 
         this.profileService.getUserDetails().subscribe(
           (res: any) => {
             this.events.publish("userInfo", res);
-            this.navCtrl.setRoot("HomePage");
+
+
+            if(!res.confirmed) {
+              this.showToaster("Your account is not at confirmed");
+            }
+
+            if(res.blocked) {
+              this.showToaster("Your account is blocked");
+            }
+
+            if(res.confirmed && !res.blocked) {
+              this.navCtrl.setRoot("HomePage");
+              this.showToaster("Login successful");
+            }
+
+
             loader.dismiss();
           },
           error => {
@@ -77,8 +90,8 @@ export class LoginPage implements OnInit {
           }
         );
       },
-      error => {
-        this.showToaster(error.error.message);
+      (error) => {
+        this.showToaster("email or password is incorrect");
         loader.dismiss();
         // console.log('error---',JSON.stringify(error));
       }
@@ -118,7 +131,7 @@ export class LoginPage implements OnInit {
             this.loginService.loginUserViaFacebook(userInfo).subscribe(
               (re: any) => {
                 console.log("token", JSON.stringify(re));
-                localStorage.setItem("token", "bearer " + re.token);
+                localStorage.setItem("token", re.token);
                 loader.dismiss();
                 this.events.publish("userInfo", {
                   name: data.name,

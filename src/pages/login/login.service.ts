@@ -13,15 +13,9 @@ export class LoginService {
   // send login credention to server
   onLoginData(loginData: any) {
     const body = loginData;
-    const headers = new HttpHeaders();
-    headers.set("Content-Type", "application/json");
-    return this.http.post(
-      this.constantService.Login_Auth + "auth/local",
-      body,
-      {
-        headers: headers
-      }
-    );
+    // const headers = new HttpHeaders();
+    // headers.set("Content-Type", "application/json");
+    return this.http.post(this.constantService.testApi + "auth/local", body);
   }
 
   // send facebook user details of user to server
