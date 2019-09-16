@@ -5,8 +5,8 @@
 </ion-header>
 <ion-content class="track-order_content">
   <div class="order-details-content">
-    <ion-row padding>
-      <ion-col col-7 *ngIf="orderDetail.order_status === 'pending'">
+    <ion-row padding *ngIf="!showInvoice">
+      <ion-col col-7 *ngIf="orderDetail.order_status === 'pending' || orderDetail.order_status === 'confirmed'">
         <h2>{{ minutesToDisplay }}<small>min</small> : {{ secondsToDisplay }}<small>sec</small></h2>
 
         <hr />
@@ -30,6 +30,9 @@
             <br />
             {{ 'Order Id' | translate }}: {{ orderDetail.order_name }}
           </h6>
+
+          <p *ngIf="showInvoice">Your total time spent {{ time.minutes }}<small>min</small> : {{ time.seconds }}<small>sec</small></p>
+
         </ion-col>
       </ion-row>
       <!-- order -list -->
@@ -104,14 +107,33 @@
   </div>
 </ion-content>
 
-<ion-footer *ngIf="orderDetail && orderDetail.order_status === 'pending'" class="footer-content">
+<ion-footer
+*ngIf="orderDetail && orderDetail.order_status === 'confirmed'" class="footer-content">
   <div class="footer-btn">
-    <button
+
+    <button *ngIf="!showInvoice"
       class="paybill place-order-submit-btn"
       ion-item
       [disabled]="grandTotal == 0"
       (click)="payBill()">
       {{ 'Pay Bill' | translate }}
     </button>
+
+    <button *ngIf="showInvoice"
+    class="back-btn place-order-submit-btn"
+    ion-item
+    [disabled]="grandTotal == 0"
+    (click)="payBill()">
+    {{ 'Back' | translate }}
+  </button>
+
+  <button *ngIf="showInvoice"
+  class="invoice place-order-submit-btn"
+  ion-item
+  [disabled]="grandTotal == 0"
+  (click)="checkout()">
+  {{ 'Checkout' | translate }}
+</button>
+
   </div>
 </ion-footer>

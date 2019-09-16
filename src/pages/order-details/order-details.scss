@@ -1,7 +1,18 @@
 page-order-details {
 }
 
-.paybill {
+.paybill, .invoice {
   background-color:#4caf50 !important;
   color: #fefefe !important;
 }
+
+.back-btn {
+  background-color:orange !important;
+  color: #fefefe !important;
+}
+
+.footer-btn {
+  display: flex;
+}
+
+

@@ -62,10 +62,10 @@ export class OrderDetailsPage {
         this.orderTotalCost = 0;
         quantity.forEach(item => {
           let foundItem = items.find(i => i.id == item.item);
-          if(foundItem) {
+          if (foundItem) {
             item.name = foundItem.name;
           } else {
-            item.name = ''
+            item.name = '';
           }
           this.orderTotalCost =
             this.orderTotalCost + item.quantity * item.item_price;
@@ -149,14 +149,15 @@ export class OrderDetailsPage {
     let diff = nowTime - fromTime;
     let time = this.convertMS(diff);
 
-
-    if (time && this.orderDetail.order_status === 'pending') {
-
-      if(time && time.day > 0) {
+    if (
+      (time && this.orderDetail.order_status === 'pending') ||
+      (time && this.orderDetail.order_status === 'confirmed')
+    ) {
+      if (time && time.day > 0) {
         time.minute = time.minute + time.day * 1440;
       }
 
-      if(time && time.hour > 0) {
+      if (time && time.hour > 0) {
         time.minute = time.minute + time.hour * 60;
       }
 
@@ -236,7 +237,20 @@ export class OrderDetailsPage {
     }
   }
 
+  showInvoice;
+
+  time = {
+    minutes: 0,
+    seconds: 0
+  }
+
   payBill() {
+    this.time.minutes = this.minutesToDisplay;
+    this.time.seconds = this.secondsToDisplay;
+    this.showInvoice = !this.showInvoice;
+  }
+
+  checkOut() {
     this.payWithRazor();
   }
 
@@ -250,23 +264,23 @@ export class OrderDetailsPage {
       description: 'Payment for the order',
       currency: this.currency,
       key: this.razor_key,
-      amount: (this.grandTotalCost * 100),
+      amount: this.grandTotalCost * 100,
       name: 'Paymitime',
       modal: {
-        ondismiss: function () {
-          alert('dismissed')
+        ondismiss: function() {
+          alert('dismissed');
         }
       }
     };
 
     var self = this;
 
-    var successCallback = function (payment_id) {
+    var successCallback = function(payment_id) {
       // alert('payment_id: ' + payment_id);
       self.onPaymentSuccess(payment_id);
     };
 
-    var cancelCallback = function (error) {
+    var cancelCallback = function(error) {
       alert(error.description + ' (Error ' + error.code + ')');
     };
 
@@ -274,23 +288,24 @@ export class OrderDetailsPage {
   }
 
   onPaymentSuccess(paymentId) {
-
     this.showToaster('Payment successful');
 
     this.orderService
-    .updateOrder(this.orderDetail.id, { order_status: 'completed', payment_id:paymentId })
-    .subscribe(
-      res => {
-        if(this.interval) {
-          clearInterval(this.interval);
+      .updateOrder(this.orderDetail.id, {
+        order_status: 'completed',
+        payment_id: paymentId
+      })
+      .subscribe(
+        res => {
+          if (this.interval) {
+            clearInterval(this.interval);
+          }
+
+          this.navCtrl.push('OrdersPage');
+        },
+        error => {
+          this.showToaster('Payment failed');
         }
-
-        this.navCtrl.push('OrdersPage');
-      },
-      error => {
-        this.showToaster('Payment failed');
-      }
-    );
+      );
   }
-
 }
