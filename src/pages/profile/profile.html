@@ -21,11 +21,14 @@
     <div class="all-forms">
       <div class="forms" text-center>
         <ion-item>
-          <ion-input type="text" placeholder="{{'User Name' | translate}}" name="name" [(ngModel)]="profile.name" required></ion-input>
+          <ion-input type="text" placeholder="{{'User Name' | translate}}"
+           name="username" [(ngModel)]="profile.username" required></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input type="number" placeholder="{{'Phone Number' | translate}}" name="contactNumber" [(ngModel)]="profile.contactNumber"></ion-input>
+          <ion-input type="number" placeholder="{{'Phone Number' | translate}}"
+           name="mobile"
+           [(ngModel)]="profile.mobile"></ion-input>
         </ion-item>
 
         <ion-item>

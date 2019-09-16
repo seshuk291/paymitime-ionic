@@ -9,6 +9,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { CartService } from '../data-services/cart.service';
 import { OneSignal } from '@ionic-native/onesignal';
 import { AlertController } from 'ionic-angular';
+import { ConstantService } from './constant.service';
+import { OnInit } from '@angular/core';
 
 @Component({
   templateUrl: 'app.html',
@@ -20,14 +22,14 @@ import { AlertController } from 'ionic-angular';
     OneSignal
   ]
 })
-export class MyApp {
+export class MyApp implements OnInit {
   public deliveryInfo: any = {};
   public restaurantDetail: any = {};
   @ViewChild(Nav) nav: Nav;
 
   rootPage: string;
   imageUrl: string = 'assets/imgs/p3.jpg';
-  username: string = 'Guest';
+  username: string;
 
   constructor(
     public platform: Platform,
@@ -40,7 +42,8 @@ export class MyApp {
     private geoLocation: Geolocation,
     public oneSignal: OneSignal,
     private cartService: CartService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private constantService: ConstantService
   ) {
 
 
@@ -56,13 +59,12 @@ export class MyApp {
 
       if (items && items.length > 0) {
         console.log('populating cart with local storage');
-
         items.forEach(item => {
           this.cartService.addItem(item);
         });
       }
-    }
 
+    }
 
 
 
@@ -90,19 +92,26 @@ export class MyApp {
 
 
 
+  ngOnInit() {
+
+    this.profileService.currentUser$.subscribe(user => {
+      console.log("Current username", this.profileService.currentUser);
+      this.username = this.profileService.currentUser.username;
+      if(this.profileService.currentUser && this.profileService.currentUser.profileimg) {
+        this.imageUrl = this.constantService.testApi + this.profileService.currentUser.profileimg.url;
+      }
+    });
+  }
+
+
   // Get user information
   private getProfileInfo() {
-    if (localStorage.getItem('token') != null) {
-      this.socketService.establishConnection();
+    if (localStorage.getItem('jwtToken') != null) {
+
       this.profileService.getUserDetails().subscribe((res: any) => {
-        this.events.publish('userInfo', res);
+        this.profileService._currentUser.next(res);
       });
-      this.events.subscribe('userInfo', res => {
-        this.username = res.name;
-        if (res.logo != null) {
-          this.imageUrl = res.logo;
-        }
-      });
+
     }
   }
 
@@ -234,8 +243,6 @@ export class MyApp {
   //used for logout
   logout() {
     localStorage.removeItem('jwtToken'); //remove only token. position will be needed
-    this.imageUrl = 'assets/imgs/p3.jpg';
-    this.username = 'Guest';
     this.login();
   }
 

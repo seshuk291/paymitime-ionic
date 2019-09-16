@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 import {
   IonicPage,
   NavController,
@@ -6,34 +6,38 @@ import {
   Events,
   ToastController,
   LoadingController
-} from "ionic-angular";
-import { ProfileService } from "./profile.service";
-import { CloudinaryOptions, CloudinaryUploader } from "ng2-cloudinary";
+} from 'ionic-angular';
+import { ProfileService } from './profile.service';
+import { CloudinaryOptions, CloudinaryUploader } from 'ng2-cloudinary';
+import { ConstantService } from '../../app/constant.service';
 
 @IonicPage()
 @Component({
-  selector: "page-profile",
-  templateUrl: "profile.html",
+  selector: 'page-profile',
+  templateUrl: 'profile.html',
   providers: [ProfileService]
 })
 export class ProfilePage {
+  apiUrl = this.constantService.testApi;
+
   public profile: any = {
-    name: "",
-    contactNumber: 0,
-    locationName: "",
-    city: "",
-    state: "",
-    country: "",
+    username: '',
+    mobile: 0,
+    locationName: '',
+    city: '',
+    state: '',
+    country: '',
     zip: 0,
-    address: "",
-    logo: "",
-    publicId: "",
-    flag: 0
+    address: '',
+    logo: '',
+    publicId: ''
   };
-  public url = "assets/imgs/p3.jpg";
+
+  public url = 'assets/imgs/p3.jpg';
+
   cloudinaryUpload = {
-    cloudName: "impnolife",
-    uploadPreset: "mspqunld"
+    cloudName: 'impnolife',
+    uploadPreset: 'mspqunld'
   };
 
   uploader: CloudinaryUploader = new CloudinaryUploader(
@@ -46,7 +50,8 @@ export class ProfilePage {
     public profileService: ProfileService,
     public toastCtrl: ToastController,
     private events: Events,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private constantService: ConstantService
   ) {
     this.getUserDetail();
   }
@@ -54,15 +59,21 @@ export class ProfilePage {
   // used for get user detail
   getUserDetail() {
     const loader = this.loadingCtrl.create({
-      content: "Please wait"
+      content: 'Please wait'
     });
     loader.present();
     this.profileService.getUserDetails().subscribe(
       (res: any) => {
-        localStorage.setItem("userId", res._id);
-        this.profile = res;
-        if (res.logo != null) {
-          this.url = res.logo;
+        localStorage.setItem('userId', res.id);
+
+        for (const key in this.profile) {
+          if (this.profile.hasOwnProperty(key)) {
+            this.profile[key] = res[key];
+          }
+        }
+
+        if (res.profileimg) {
+          this.url = this.apiUrl + res.profileimg.url;
         }
         loader.dismiss();
       },
@@ -72,61 +83,55 @@ export class ProfilePage {
     );
   }
 
+  flag;
   // Update user detail
   onSubmitProfile() {
-    const loader = this.loadingCtrl.create({
-      content: "Please wait"
-    });
-    loader.present();
-    if (
-      this.profile.contactNumber > 999999999 &&
-      this.profile.contactNumber < 10000000000
-    ) {
-      if (this.profile.flag == 1) {
-        this.uploader.uploadAll();
-        this.uploader.onSuccessItem = (
-          item: any,
-          response: string,
-          status: number,
-          headers: any
-        ): any => {
-          let res: any = JSON.parse(response);
-          this.profile.logo = res.secure_url;
-          this.profile.publicId = res.public_id;
-          let userId = localStorage.getItem("userId");
-          this.profileService.UpdateUserProfile(this.profile, userId).subscribe(
-            (res: any) => {
-              this.events.publish("userInfo", res);
-              this.showToaster("Profile has been updated!");
-              loader.dismiss();
-            },
-            errotr => {
-              loader.dismiss();
-            }
-          );
-        };
-      } else {
-        let userId = localStorage.getItem("userId");
-        this.profileService.UpdateUserProfile(this.profile, userId).subscribe(
-          (res: any) => {
-            this.events.publish("userInfo", res);
-            this.showToaster("Profile has been updated!");
-            loader.dismiss();
-          },
-          error => {
-            loader.dismiss();
-          }
-        );
+    console.log('PROFILE', this.profile);
+
+    const formData = new FormData();
+
+    // create formData object and append all the properties to that object
+    for (const key in this.profile) {
+      if (this.profile.hasOwnProperty(key)) {
+        const element = this.profile[key];
+        formData.append(key, element);
       }
-    } else {
-      loader.dismiss();
-      this.showToaster("Please enter valid contact number!");
     }
+
+    if (this.image) {
+      formData.append('profileimg', this.image);
+    }
+
+    const loader = this.loadingCtrl.create({
+      content: 'Please wait'
+    });
+
+    loader.present();
+
+    let userId = localStorage.getItem('userId');
+    console.log('USER ID', userId);
+    this.profileService.UpdateUserProfile(formData, userId).subscribe(
+      (res: any) => {
+
+        console.log("result**", res);
+
+        this.profileService._currentUser.next(res);
+        // this.profileService.currentUser = res;
+        this.showToaster('Profile has been updated!');
+        loader.dismiss();
+      },
+      error => {
+        loader.dismiss();
+      }
+    );
   }
 
+  image;
   // Used for read image from local system
   readUrl(event) {
     if (event.target.files && event.target.files[0]) {
+      this.image = event.target.files[0];
+
       var reader = new FileReader();
       reader.onload = (event: any) => {
         this.url = event.target.result;
