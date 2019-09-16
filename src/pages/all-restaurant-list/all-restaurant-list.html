@@ -6,18 +6,19 @@
 <ion-content class="all-products_content ">
   <ion-list class="animated fadeInDown">
     <ion-item *ngFor="let item of restaurantList" (click)="onGoToRestaurant_detailsPage(item._id)">
-      <ion-thumbnail item-start *ngIf="item.restaurantID.logo != null">
-        <img src={{item.restaurantID.logo}} alt={{item.restaurantID.restaurantName}}>
-      </ion-thumbnail>
-      <ion-thumbnail item-start *ngIf="item.restaurantID.logo == null">
-        <img src="assets/imgs/default-restaurant.jpg">
+      <ion-thumbnail item-start>
+        <img *ngIf="item.restaurant_image && item.restaurant_image.length > 0"
+         src="{{apiUrl + item.restaurant_image[0].url}}"
+         alt={{item.restaurant_name}}>
       </ion-thumbnail>
       <ion-row>
         <ion-col>
-          <h2>{{item.restaurantID.restaurantName}}</h2>
-          <h5>{{item.locationName}}</h5>
+          <h2>{{item.restaurant_name}}</h2>
+          <h5>{{item.restaurant_address}}</h5>
           <!-- <h5>{{item.category}}</h5>  -->
+
           <ion-row>
+            <!--
             <ion-col col-4 class="no-padding-left">
               <h6 *ngIf="item.deliveryInfo">Min: $ {{item.deliveryInfo.deliveryInfo.amountEligibility}}</h6>
               <h6 *ngIf="!item.deliveryInfo">Free Delivery</h6>
@@ -25,7 +26,7 @@
             <ion-col col-8>
               <h4 *ngIf="item.deliveryInfo">{{item.deliveryInfo.deliveryInfo.deliveryTime}} Delivery</h4>
               <h4 *ngIf="!item.deliveryInfo">Standard time</h4>
-            </ion-col>
+            </ion-col> -->
             <span *ngIf="item.rating !=0">
               <ion-badge>{{item.rating | number: '.1-1'}} &nbsp;
                 <ion-icon name="star"></ion-icon>

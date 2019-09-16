@@ -14,44 +14,19 @@ export class RestaurantListService {
 
   // API call to get Restaurant List by latitude and longitude
   getRestaurantsByPosition(latitude?, longitude?) {
-    const body = {
-      latitude: latitude,
-      longitude: longitude
-    };
-    const headers = new HttpHeaders();
-    headers.set("Content-Type", "application/json");
-    return this.http.post(
-      this.constantService.API_ENDPOINT + "locations/all/map/distance",
-      body,
-      {
-        headers: headers
-      }
-    );
+    return this.http.get(this.constantService.testApi + "restaurants");
   }
 
   // API call to get Restaurant List by Rating
   getRestaurantsByRating() {
-    const headers = new HttpHeaders();
-    headers.set("Content-Type", "application/json");
-    return this.http.get(
-      this.constantService.API_ENDPOINT +
-        "locations/toprated/all/restaurant/list",
-      {
-        headers: headers
-      }
-    );
+    return this.http.get(this.constantService.testApi + "restaurants");
   }
 
   // API call to get Restaurant List by Rating
   getRestaurantAsNewlyArrived() {
-    const headers = new HttpHeaders();
-    headers.set("Content-Type", "application/json");
     return this.http.get(
-      this.constantService.API_ENDPOINT +
-        "locations/newlyadded/all/restaurant/list",
-      {
-        headers: headers
-      }
+      this.constantService.testApi +
+        "restaurants"
     );
   }
 }

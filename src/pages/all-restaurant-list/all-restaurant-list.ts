@@ -8,6 +8,7 @@ import {
 } from "ionic-angular";
 
 import { RestaurantListService } from "./restaurant-list.service";
+import { ConstantService } from '../../app/constant.service';
 
 @IonicPage()
 @Component({
@@ -23,12 +24,15 @@ export class AllRestaurantPage {
   private pageValue: string;
   public pageHeaderTitle: string;
 
+  apiUrl = this.constantService.testApi;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public restListService: RestaurantListService,
     public loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private constantService: ConstantService
   ) {
     this.pageValue = this.navParams.get("pageValue");
     //Get location by lat/long from localStorage
